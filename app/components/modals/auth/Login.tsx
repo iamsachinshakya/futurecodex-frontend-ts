@@ -46,7 +46,7 @@ export const LoginModal: React.FC<LoginModalProps> = ({
           </div>
 
           <p className="text-gray-400 mb-8">
-            Login to access your TechNova account
+            Login to access your FutureCodex account
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-5">

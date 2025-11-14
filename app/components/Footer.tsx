@@ -82,7 +82,7 @@ const Footer: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
                   <h4 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                    TechNova
+                    FutureCodex
                   </h4>
                   <div className="h-0.5 w-16 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full mb-4"></div>
                   <p className="text-gray-400 text-sm mb-6 leading-relaxed">
@@ -94,22 +94,22 @@ const Footer: React.FC = () => {
                       {
                         name: "Twitter",
                         icon: "𝕏",
-                        url: "https://twitter.com/technova",
+                        url: "https://twitter.com/FutureCodex",
                       },
                       {
                         name: "GitHub",
                         icon: "⚡",
-                        url: "https://github.com/technova",
+                        url: "https://github.com/FutureCodex",
                       },
                       {
                         name: "LinkedIn",
                         icon: "💼",
-                        url: "https://linkedin.com/company/technova",
+                        url: "https://linkedin.com/company/FutureCodex",
                       },
                       {
                         name: "Discord",
                         icon: "💬",
-                        url: "https://discord.gg/technova",
+                        url: "https://discord.gg/FutureCodex",
                       },
                     ].map((social) => (
                       <a
@@ -141,22 +141,25 @@ const Footer: React.FC = () => {
                   </h4>
                   <ul className="space-y-2.5">
                     {[
-                      { name: "Blog Articles", url: "https://technova.blog" },
+                      {
+                        name: "Blog Articles",
+                        url: "https://FutureCodex.blog",
+                      },
                       {
                         name: "Our Authors",
-                        url: "https://technova.blog/authors",
+                        url: "https://FutureCodex.blog/authors",
                       },
                       {
                         name: "Browse Topics",
-                        url: "https://technova.blog/topics",
+                        url: "https://FutureCodex.blog/topics",
                       },
                       {
                         name: "Trending Posts",
-                        url: "https://technova.blog/trending",
+                        url: "https://FutureCodex.blog/trending",
                       },
                       {
                         name: "Archives",
-                        url: "https://technova.blog/archive",
+                        url: "https://FutureCodex.blog/archive",
                       },
                     ].map((link) => (
                       <li key={link.name}>
@@ -186,23 +189,23 @@ const Footer: React.FC = () => {
                     {[
                       {
                         name: "Write for Us",
-                        url: "https://technova.blog/contribute",
+                        url: "https://FutureCodex.blog/contribute",
                       },
                       {
                         name: "Join Community",
-                        url: "https://technova.blog/community",
+                        url: "https://FutureCodex.blog/community",
                       },
                       {
                         name: "Events & Meetups",
-                        url: "https://technova.blog/events",
+                        url: "https://FutureCodex.blog/events",
                       },
                       {
                         name: "Newsletter Archive",
-                        url: "https://technova.blog/newsletter",
+                        url: "https://FutureCodex.blog/newsletter",
                       },
                       {
                         name: "Support Us",
-                        url: "https://technova.blog/support",
+                        url: "https://FutureCodex.blog/support",
                       },
                     ].map((link) => (
                       <li key={link.name}>
@@ -231,21 +234,24 @@ const Footer: React.FC = () => {
                   <ul className="space-y-2.5">
                     {[
                       {
-                        name: "About TechNova",
-                        url: "https://technova.blog/about",
+                        name: "About FutureCodex",
+                        url: "https://FutureCodex.blog/about",
                       },
-                      { name: "Our Team", url: "https://technova.blog/team" },
+                      {
+                        name: "Our Team",
+                        url: "https://FutureCodex.blog/team",
+                      },
                       {
                         name: "Careers",
-                        url: "https://technova.blog/careers",
+                        url: "https://FutureCodex.blog/careers",
                       },
                       {
                         name: "Contact Us",
-                        url: "https://technova.blog/contact",
+                        url: "https://FutureCodex.blog/contact",
                       },
                       {
                         name: "Media Kit",
-                        url: "https://technova.blog/media-kit",
+                        url: "https://FutureCodex.blog/media-kit",
                       },
                     ].map((link) => (
                       <li key={link.name}>
@@ -271,26 +277,28 @@ const Footer: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-center gap-4 text-sm text-gray-500">
                 <p className="text-center sm:text-left">
                   © 2025{" "}
-                  <span className="text-cyan-400 font-semibold">TechNova</span>.
-                  All rights reserved.
+                  <span className="text-cyan-400 font-semibold">
+                    FutureCodex
+                  </span>
+                  . All rights reserved.
                 </p>
                 <div className="flex items-center gap-3">
                   <a
-                    href="https://technova.blog/privacy"
+                    href="https://FutureCodex.blog/privacy"
                     className="hover:text-cyan-400 transition-colors duration-300"
                   >
                     Privacy
                   </a>
                   <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                   <a
-                    href="https://technova.blog/terms"
+                    href="https://FutureCodex.blog/terms"
                     className="hover:text-cyan-400 transition-colors duration-300"
                   >
                     Terms
                   </a>
                   <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                   <a
-                    href="https://technova.blog/cookies"
+                    href="https://FutureCodex.blog/cookies"
                     className="hover:text-cyan-400 transition-colors duration-300"
                   >
                     Cookies
@@ -300,7 +308,7 @@ const Footer: React.FC = () => {
               <div className="flex items-center gap-2 text-sm text-gray-500">
                 <span>Crafted with</span>
                 <span className="text-pink-500 animate-pulse">♥</span>
-                <span>by the TechNova Team</span>
+                <span>by the FutureCodex Team</span>
               </div>
             </div>
           </div>
