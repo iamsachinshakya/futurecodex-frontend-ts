@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Search } from "lucide-react";
-import { Category } from "../_lib/types";
-import { CategoryCard } from "./CategoryCard";
+import { Category } from "@/app/modules/category/types/types";
+import { CategoryCard } from "@/app/modules/category/components/CategoryCard";
 
 interface CategoriesGridProps {
   categories: Category[];

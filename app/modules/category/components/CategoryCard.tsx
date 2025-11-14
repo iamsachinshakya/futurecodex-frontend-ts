@@ -1,7 +1,7 @@
 "use client";
 
+import { Category } from "@/app/modules/category/types/types";
 import { ArrowRight, Zap } from "lucide-react";
-import { Category } from "../_lib/types";
 
 interface CategoryCardProps {
   category: Category;

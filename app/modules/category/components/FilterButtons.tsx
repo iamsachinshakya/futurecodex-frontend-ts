@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterType } from "../_lib/types";
+import { FilterType } from "@/app/modules/category/types/types";
 
 interface FilterButtonsProps {
   filters: FilterType[];

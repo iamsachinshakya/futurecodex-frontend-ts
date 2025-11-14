@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Sparkles, Check } from "lucide-react";
-import { Category } from "../_lib/types";
+import { Category } from "@/app/modules/category/types/types";
 
 interface SubscribeModalProps {
   isOpen: boolean;

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Brain,
   Cloud,
@@ -13,7 +12,7 @@ import {
   Rocket,
   TrendingUp,
 } from "lucide-react";
-import { Category, FilterType } from "./types";
+import { Category, FilterType } from "@/app/modules/category/types/types";
 
 export const CATEGORIES: Category[] = [
   {

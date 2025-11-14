@@ -1,65 +1,12 @@
-"use client";
+import HomePage from "@/app/modules/home/HomePage";
+import React from "react";
 
-import Footer from "@/app/components/Footer";
-import Header from "@/app/components/Header";
-import Categories from "@/app/components/home/Categories";
-import FeaturedPosts from "@/app/components/home/FeaturedPosts";
-import Hero from "@/app/components/home/Hero";
-import { LoginModal } from "@/app/components/modals/auth/Login";
-import { RegisterModal } from "@/app/components/modals/auth/Register";
-import React, { useState } from "react";
-
-const HomePage: React.FC = () => {
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
-
-  const handleLoginClick = () => {
-    setShowLoginModal(true);
-    setShowRegisterModal(false);
-  };
-
-  const handleRegisterClick = () => {
-    setShowRegisterModal(true);
-    setShowLoginModal(false);
-  };
-
-  const handleCloseModals = () => {
-    setShowLoginModal(false);
-    setShowRegisterModal(false);
-  };
-
+function page() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white font-sans">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
-      </div>
-
-      <Header
-        onLoginClick={handleLoginClick}
-        onRegisterClick={handleRegisterClick}
-      />
-
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={handleCloseModals}
-        onSwitchToRegister={handleRegisterClick}
-      />
-
-      <RegisterModal
-        isOpen={showRegisterModal}
-        onClose={handleCloseModals}
-        onSwitchToLogin={handleLoginClick}
-      />
-
-      <Hero />
-      <Categories />
-      <FeaturedPosts />
-      <Footer />
+    <div>
+      <HomePage />
     </div>
   );
-};
+}
 
-export default HomePage;
+export default page;

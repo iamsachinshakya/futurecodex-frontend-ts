@@ -1,15 +1,14 @@
 "use client";
 
+import { CategoriesGrid } from "@/app/modules/category/components/CategoriesGrid";
+import { CTASection } from "@/app/modules/category/components/CTASection";
+import { HeroSection } from "@/app/modules/category/components/HeroSection";
+import { StatsSection } from "@/app/modules/category/components/StatsSection";
+import { SubscribeModal } from "@/app/modules/category/components/SubscribeModal";
+import { FilterType } from "@/app/modules/category/types/types";
+import { CATEGORIES, FILTERS } from "@/app/modules/category/utils/constants";
 import { useState, useEffect } from "react";
-import { Navbar } from "./_components/Navbar";
-import { HeroSection } from "./_components/HeroSection";
-import { CategoriesGrid } from "./_components/CategoriesGrid";
-import { StatsSection } from "./_components/StatsSection";
-import { CTASection } from "./_components/CTASection";
-import { SubscribeModal } from "./_components/SubscribeModal";
-import { CATEGORIES, FILTERS } from "./_lib/constants";
-import { FilterType } from "./_lib/types";
-import "./_styles/animations.css";
+import "./styles/animations.css";
 
 export default function CategoriesPage() {
   const [scrolled, setScrolled] = useState(false);

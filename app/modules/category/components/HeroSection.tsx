@@ -1,10 +1,10 @@
 "use client";
 
+import { FilterButtons } from "@/app/modules/category/components/FilterButtons";
+import { FloatingElements } from "@/app/modules/category/components/FloatingElements";
+import { SearchBar } from "@/app/modules/category/components/SearchBar";
+import { FilterType } from "@/app/modules/category/types/types";
 import { Sparkles } from "lucide-react";
-import { SearchBar } from "./SearchBar";
-import { FilterButtons } from "./FilterButtons";
-import { FloatingElements } from "./FloatingElements";
-import { FilterType } from "../_lib/types";
 
 interface HeroSectionProps {
   searchQuery: string;
