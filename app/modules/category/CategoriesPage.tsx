@@ -27,7 +27,7 @@ export default function CategoriesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
+    <div className="min-h-screen pt-10 bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
       <AnimatedBackground />
 
       <HeroSection
@@ -51,7 +51,7 @@ export default function CategoriesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center text-gray-500">
             <p>
-              © 2025 TechNova. All rights reserved. Built with Next.js &
+              © 2025 FutureCodex. All rights reserved. Built with Next.js &
               Tailwind CSS.
             </p>
           </div>

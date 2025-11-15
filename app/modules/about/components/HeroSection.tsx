@@ -24,7 +24,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-full backdrop-blur-sm">
               <Sparkles size={20} className="text-cyan-400 animate-pulse" />
               <span className="text-cyan-400 font-semibold">
-                About TechNova
+                About FutureCodex
               </span>
             </div>
           </FadeInOnScroll>
@@ -68,7 +68,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
           <FadeInOnScroll direction="left" delay="long" threshold={0.2}>
             <a
               href="#team"
-              className="px-8 py-4 bg-gray-800/50 border border-gray-700/50 rounded-full font-semibold hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-300"
+              className="flex items-center gap-2 px-8 py-4 bg-gray-800/50 border border-gray-700/50 rounded-full font-semibold hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-300"
             >
               Meet the Team
             </a>

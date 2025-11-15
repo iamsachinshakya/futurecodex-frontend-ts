@@ -11,7 +11,7 @@ import React, { useState, useEffect } from "react";
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
+    <div className="pt-20 min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
       <AnimatedBackground />
       <HeroSection />
       <StatsSection />

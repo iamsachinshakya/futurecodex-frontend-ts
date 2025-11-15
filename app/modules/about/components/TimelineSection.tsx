@@ -14,7 +14,7 @@ const TimelineSection: React.FC = () => {
   const milestones: Milestone[] = [
     {
       year: "2023",
-      title: "TechNova Founded",
+      title: "FutureCodex Founded",
       description: "Started with a vision to democratize tech education",
     },
     {
