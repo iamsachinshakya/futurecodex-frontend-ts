@@ -9,18 +9,12 @@ import { FilterType } from "@/app/modules/category/types/types";
 import { CATEGORIES, FILTERS } from "@/app/modules/category/utils/constants";
 import { useState, useEffect } from "react";
 import "./styles/animations.css";
+import AnimatedBackground from "@/app/shared/components/ui/AnimatedBackground";
 
 export default function CategoriesPage() {
-  const [scrolled, setScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("All");
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const filteredCategories = CATEGORIES.filter((cat) => {
     const matchesSearch =
@@ -33,15 +27,8 @@ export default function CategoriesPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white font-sans">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse"></div>
-      </div>
-
-      {/* <Navbar scrolled={scrolled} /> */}
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
+      <AnimatedBackground />
 
       <HeroSection
         searchQuery={searchQuery}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Sparkles, Check } from "lucide-react";
 import { Category } from "@/app/modules/category/types/types";
-
+import "@/app/styles/scrollbar.css";
 interface SubscribeModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -54,7 +54,7 @@ export function SubscribeModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl border border-cyan-500/30 shadow-2xl shadow-cyan-500/20 overflow-hidden max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-2xl bg-gradient-to-br from-gray-800/95 to-gray-900/95 backdrop-blur-xl rounded-3xl border border-cyan-500/30 shadow-2xl shadow-cyan-500/20 max-h-[90vh] overflow-y-auto scrollbar-custom"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-cyan-500/20 to-transparent blur-3xl"></div>
@@ -117,7 +117,7 @@ export function SubscribeModal({
                   <label className="block text-sm font-semibold text-gray-300 mb-3">
                     Select Your Interests (Choose at least one)
                   </label>
-                  <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                  <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto pr-2 scrollbar-thin">
                     {categories.map((category) => (
                       <button
                         key={category.id}

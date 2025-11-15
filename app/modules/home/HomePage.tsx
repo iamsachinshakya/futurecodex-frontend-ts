@@ -2,10 +2,11 @@
 import Categories from "@/app/modules/home/components/Categories";
 import FeaturedPosts from "@/app/modules/home/components/FeaturedPosts";
 import Hero from "@/app/modules/home/components/Hero";
-import Footer from "@/app/shared/components/Footer";
-import Header from "@/app/shared/components/Header";
+import Footer from "@/app/shared/components/layout/Footer";
+import Header from "@/app/shared/components/layout/Header";
 import { LoginModal } from "@/app/shared/components/modals/auth/Login";
 import { RegisterModal } from "@/app/shared/components/modals/auth/Register";
+import AnimatedBackground from "@/app/shared/components/ui/AnimatedBackground";
 import React, { useState } from "react";
 
 const HomePage: React.FC = () => {
@@ -28,13 +29,8 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white font-sans">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
+      <AnimatedBackground />
 
       <Header
         onLoginClick={handleLoginClick}
