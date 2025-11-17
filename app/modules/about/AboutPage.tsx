@@ -16,9 +16,9 @@ const AboutPage: React.FC = () => {
       <HeroSection />
       <StatsSection />
       <MissionSection />
-      <TimelineSection />
-      <TeamSection />
-      <CTASection />
+      {/* <TimelineSection /> */}
+      {/* <TeamSection /> */}
+      {/* <CTASection /> */}
     </div>
   );
 };

@@ -11,6 +11,11 @@ interface HeroSectionProps {}
 const HeroSection: React.FC<HeroSectionProps> = () => {
   const scrollY = useScrollPosition({ throttle: 16 });
 
+  const scrollTo = () => {
+    const formSection = document.querySelector("#mission");
+    formSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <section className="relative z-10 pt-20 pb-32 px-4 sm:px-6 lg:px-8 section-marker overflow-hidden">
       <div className="max-w-6xl mx-auto text-center">
@@ -53,8 +58,8 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
         {/* CTA Buttons - Alternating Directions */}
         <div className="flex flex-wrap justify-center gap-4">
           <FadeInOnScroll direction="right" delay="long" threshold={0.2}>
-            <a
-              href="#mission"
+            <div
+              onClick={scrollTo}
               className="group px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full font-semibold hover:scale-105 transition-all duration-300 shadow-lg shadow-cyan-500/25 flex items-center gap-2"
             >
               Our Mission
@@ -62,17 +67,17 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
                 size={20}
                 className="group-hover:translate-x-1 transition-transform"
               />
-            </a>
+            </div>
           </FadeInOnScroll>
 
-          <FadeInOnScroll direction="left" delay="long" threshold={0.2}>
+          {/* <FadeInOnScroll direction="left" delay="long" threshold={0.2}>
             <a
               href="#team"
               className="flex items-center gap-2 px-8 py-4 bg-gray-800/50 border border-gray-700/50 rounded-full font-semibold hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-300"
             >
               Meet the Team
             </a>
-          </FadeInOnScroll>
+          </FadeInOnScroll> */}
         </div>
       </div>
 

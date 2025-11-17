@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className=" min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
+    <footer className=" bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
       <div className="relative z-10  overflow-hidden">
         {/* Futuristic Divider */}
         <FadeInOnScroll direction="none" delay="none">
@@ -110,210 +110,6 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* Footer Main Content - Futuristic Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              {/* Brand Section */}
-              <FadeInOnScroll direction="up" delay="short" threshold={0.3}>
-                <div className="relative group">
-                  <div className="relative bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/30 hover:border-cyan-500/50 transition-all duration-300 h-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="relative z-10">
-                      <h4 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2">
-                        FutureCodex
-                      </h4>
-                      <div className="h-0.5 w-16 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full mb-4"></div>
-                      <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-                        Empowering developers and tech enthusiasts with
-                        cutting-edge insights and innovations.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {[
-                          {
-                            name: "Twitter",
-                            icon: "𝕏",
-                            url: "https://twitter.com/FutureCodex",
-                          },
-                          {
-                            name: "GitHub",
-                            icon: "⚡",
-                            url: "https://github.com/FutureCodex",
-                          },
-                          {
-                            name: "LinkedIn",
-                            icon: "💼",
-                            url: "https://linkedin.com/company/FutureCodex",
-                          },
-                          {
-                            name: "Discord",
-                            icon: "💬",
-                            url: "https://discord.gg/FutureCodex",
-                          },
-                        ].map((social) => (
-                          <a
-                            key={social.name}
-                            href={social.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group/social relative w-10 h-10 rounded-lg bg-gray-800/50 border border-gray-700/50 flex items-center justify-center hover:border-cyan-500/50 hover:scale-110 transition-all duration-300 overflow-hidden"
-                            title={social.name}
-                          >
-                            <span className="relative z-10 text-lg">
-                              {social.icon}
-                            </span>
-                            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 opacity-0 group-hover/social:opacity-100 transition-opacity duration-300"></div>
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </FadeInOnScroll>
-
-              {/* Explore Section */}
-              <FadeInOnScroll direction="up" delay="medium" threshold={0.3}>
-                <div className="relative group">
-                  <div className="relative bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/30 hover:border-cyan-500/50 transition-all duration-300 h-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="relative z-10">
-                      <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                        <span className="text-cyan-400">→</span> Explore
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {[
-                          {
-                            name: "Blog Articles",
-                            url: "https://FutureCodex.blog",
-                          },
-                          {
-                            name: "Our Authors",
-                            url: "https://FutureCodex.blog/authors",
-                          },
-                          {
-                            name: "Browse Topics",
-                            url: "https://FutureCodex.blog/topics",
-                          },
-                          {
-                            name: "Trending Posts",
-                            url: "https://FutureCodex.blog/trending",
-                          },
-                          {
-                            name: "Archives",
-                            url: "https://FutureCodex.blog/archive",
-                          },
-                        ].map((link) => (
-                          <li key={link.name}>
-                            <a
-                              href={link.url}
-                              className="text-gray-400 hover:text-cyan-400 transition-colors duration-300 text-sm flex items-center gap-2 group/link"
-                            >
-                              <span className="w-1 h-1 rounded-full bg-cyan-500/50 group-hover/link:bg-cyan-500"></span>
-                              {link.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </FadeInOnScroll>
-
-              {/* Community Section */}
-              <FadeInOnScroll direction="up" delay="medium" threshold={0.3}>
-                <div className="relative group">
-                  <div className="relative bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/30 hover:border-purple-500/50 transition-all duration-300 h-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="relative z-10">
-                      <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                        <span className="text-purple-400">→</span> Community
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {[
-                          {
-                            name: "Write for Us",
-                            url: "https://FutureCodex.blog/contribute",
-                          },
-                          {
-                            name: "Join Community",
-                            url: "https://FutureCodex.blog/community",
-                          },
-                          {
-                            name: "Events & Meetups",
-                            url: "https://FutureCodex.blog/events",
-                          },
-                          {
-                            name: "Newsletter Archive",
-                            url: "https://FutureCodex.blog/newsletter",
-                          },
-                          {
-                            name: "Support Us",
-                            url: "https://FutureCodex.blog/support",
-                          },
-                        ].map((link) => (
-                          <li key={link.name}>
-                            <a
-                              href={link.url}
-                              className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm flex items-center gap-2 group/link"
-                            >
-                              <span className="w-1 h-1 rounded-full bg-purple-500/50 group-hover/link:bg-purple-500"></span>
-                              {link.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </FadeInOnScroll>
-
-              {/* Company Section */}
-              <FadeInOnScroll direction="up" delay="long" threshold={0.3}>
-                <div className="relative group">
-                  <div className="relative bg-gradient-to-br from-gray-800/40 to-gray-900/40 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/30 hover:border-pink-500/50 transition-all duration-300 h-full">
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-rose-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <div className="relative z-10">
-                      <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                        <span className="text-pink-400">→</span> Company
-                      </h4>
-                      <ul className="space-y-2.5">
-                        {[
-                          {
-                            name: "About FutureCodex",
-                            url: "https://FutureCodex.blog/about",
-                          },
-                          {
-                            name: "Our Team",
-                            url: "https://FutureCodex.blog/team",
-                          },
-                          {
-                            name: "Careers",
-                            url: "https://FutureCodex.blog/careers",
-                          },
-                          {
-                            name: "Contact Us",
-                            url: "https://FutureCodex.blog/contact",
-                          },
-                          {
-                            name: "Media Kit",
-                            url: "https://FutureCodex.blog/media-kit",
-                          },
-                        ].map((link) => (
-                          <li key={link.name}>
-                            <a
-                              href={link.url}
-                              className="text-gray-400 hover:text-pink-400 transition-colors duration-300 text-sm flex items-center gap-2 group/link"
-                            >
-                              <span className="w-1 h-1 rounded-full bg-pink-500/50 group-hover/link:bg-pink-500"></span>
-                              {link.name}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </FadeInOnScroll>
-            </div>
-
             {/* Bottom Bar - Futuristic */}
             <FadeInOnScroll direction="up" delay="long" threshold={0.3}>
               <div className="relative">
@@ -329,21 +125,21 @@ const Footer: React.FC = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <a
-                        href="https://FutureCodex.blog/privacy"
+                        // href="https://FutureCodex.blog/privacy"
                         className="hover:text-cyan-400 transition-colors duration-300"
                       >
                         Privacy
                       </a>
                       <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                       <a
-                        href="https://FutureCodex.blog/terms"
+                        // href="https://FutureCodex.blog/terms"
                         className="hover:text-cyan-400 transition-colors duration-300"
                       >
                         Terms
                       </a>
                       <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                       <a
-                        href="https://FutureCodex.blog/cookies"
+                        // href="https://FutureCodex.blog/cookies"
                         className="hover:text-cyan-400 transition-colors duration-300"
                       >
                         Cookies
@@ -353,7 +149,7 @@ const Footer: React.FC = () => {
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <span>Crafted with</span>
                     <span className="text-pink-500 animate-pulse">♥</span>
-                    <span>by the FutureCodex Team</span>
+                    <span>by the Sachin Shakya</span>
                   </div>
                 </div>
               </div>
