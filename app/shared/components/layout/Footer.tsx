@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
 import { SubscribeModal } from "@/app/modules/category/components/SubscribeModal";
 import { CATEGORIES } from "@/app/modules/category/utils/constants";
+import Link from "next/link";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -122,7 +123,7 @@ const Footer: React.FC = () => {
                     <p className="text-center sm:text-left">
                       © 2025{" "}
                       <span className="text-cyan-400 font-semibold">
-                        FutureCodex
+                        <Link href="/">FutureCodex</Link>
                       </span>
                       . All rights reserved.
                     </p>

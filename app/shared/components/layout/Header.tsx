@@ -63,13 +63,14 @@ const Header: React.FC<HeaderProps> = ({}) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             {/* Logo with Scale Animation */}
-            <div
+            <Link
+              href={"/"}
               className={`text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent transition-all duration-700 ${
                 isVisible ? "animate-fade-in-scale" : "opacity-0"
               }`}
             >
               FutureCodex
-            </div>
+            </Link>
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-8">
