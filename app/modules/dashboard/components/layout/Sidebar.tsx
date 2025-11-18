@@ -29,7 +29,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
       {/* Logo Section */}
       <div className="p-6 border-b border-gray-700/50">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-          TechNova
+          FutureCodex
         </h1>
         <p className="text-sm text-gray-400 mt-1">Dashboard</p>
       </div>
