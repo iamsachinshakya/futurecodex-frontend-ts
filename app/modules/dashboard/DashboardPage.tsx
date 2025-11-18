@@ -10,6 +10,7 @@ import { BlogsView } from "@/app/modules/dashboard/components/views/BlogsView";
 import { AnalyticsView } from "@/app/modules/dashboard/components/views/AnalyticsView";
 import { ProfileView } from "@/app/modules/dashboard/components/views/ProfileView";
 import { SettingsView } from "@/app/modules/dashboard/components/views/SettingsView";
+import { AdminView } from "@/app/modules/dashboard/components/views/AdminView";
 
 export default function DashboardPage() {
   // Tab state
@@ -80,6 +81,8 @@ export default function DashboardPage() {
               onEditProfile={() => setShowEditProfile(true)}
             />
           )}
+
+          {activeTab === "admin" && <AdminView />}
 
           {activeTab === "settings" && <SettingsView />}
         </div>

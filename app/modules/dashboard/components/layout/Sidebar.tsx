@@ -8,6 +8,7 @@ import {
   User,
   Settings,
   LogOut,
+  Shield,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -20,6 +21,7 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
     { id: "dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { id: "blogs", icon: FileText, label: "My Blogs" },
     { id: "analytics", icon: BarChart3, label: "Analytics" },
+    { id: "admin", icon: Shield, label: "Admin Panel" },
     { id: "profile", icon: User, label: "Profile" },
     { id: "settings", icon: Settings, label: "Settings" },
   ];
