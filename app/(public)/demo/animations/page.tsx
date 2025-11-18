@@ -22,7 +22,7 @@ export default function AnimationsShowcasePage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-xl border-b border-gray-800/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
               Animation Showcase
@@ -48,7 +48,7 @@ export default function AnimationsShowcasePage() {
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        <div className="max-w-7xl mx-auto text-center">
+        <div className="max-w-6xl mx-auto text-center">
           <ParallaxElement scrollY={scrollY} speed={0.1}>
             <FadeInOnScroll direction="scale" delay="none">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/20 rounded-full mb-6">
@@ -82,7 +82,7 @@ export default function AnimationsShowcasePage() {
 
       {/* Direction Animations */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/30">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <FadeInOnScroll direction="up" delay="short">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 mb-4">
@@ -197,7 +197,7 @@ export default function AnimationsShowcasePage() {
 
       {/* Delay Variations */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <FadeInOnScroll direction="up" delay="short">
             <div className="text-center mb-12">
               <div className="inline-flex items-center gap-2 mb-4">
@@ -250,7 +250,7 @@ export default function AnimationsShowcasePage() {
 
       {/* Parallax Demo */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900/30">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <FadeInOnScroll direction="up" delay="short">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Parallax Scrolling</h2>

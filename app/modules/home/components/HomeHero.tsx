@@ -11,7 +11,7 @@ const HomeHero: React.FC = () => {
 
   return (
     <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-7xl mx-auto text-center relative z-10">
+      <div className="max-w-6xl mx-auto text-center relative z-10">
         {/* Badge with Parallax */}
         <ParallaxElement scrollY={scrollY} speed={0.1} className="mb-6">
           <FadeInOnScroll direction="scale" delay="none">

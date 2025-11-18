@@ -183,7 +183,7 @@ export default function ContactHero() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto text-center relative z-10">
+      <div className="max-w-6xl mx-auto text-center relative z-10">
         {/* Badge with Animation */}
         <div
           className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 border border-cyan-500/30 rounded-full mb-8 backdrop-blur-xl shadow-2xl shadow-cyan-500/10 hover:scale-105 transition-all duration-300 cursor-pointer group"

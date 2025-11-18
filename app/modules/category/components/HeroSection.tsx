@@ -28,7 +28,7 @@ export function HeroSection({
 
   return (
     <section className="relative pt-32 pb-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-12">
           {/* Parallax Badge */}
           <ParallaxElement

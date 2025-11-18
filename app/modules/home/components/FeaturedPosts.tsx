@@ -75,7 +75,7 @@ const FeaturedPosts: React.FC = () => {
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section Title */}
         <FadeInOnScroll direction="up" delay="short">
           <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center">

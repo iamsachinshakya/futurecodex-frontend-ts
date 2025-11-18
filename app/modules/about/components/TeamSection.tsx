@@ -59,7 +59,7 @@ const TeamSection: React.FC = () => {
       id="team"
       className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 section-marker"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <FadeInOnScroll direction="up" delay="short">
           <div className="text-center mb-16">

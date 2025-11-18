@@ -9,7 +9,7 @@ export default function MapSection() {
 
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 relative z-10">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
           <FadeInOnScroll direction="scale" delay="none">
