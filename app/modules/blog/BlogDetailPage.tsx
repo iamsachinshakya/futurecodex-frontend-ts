@@ -15,20 +15,23 @@ export default function BlogDetailPage() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const article: any = document.querySelector(".article-content");
-      if (article) {
-        const scrollTop = window.scrollY;
-        const articleTop = article.offsetTop;
-        const articleHeight = article.offsetHeight;
-        const progress = Math.min(
-          Math.max(((scrollTop - articleTop) / articleHeight) * 100, 0),
-          100
-        );
-        setReadProgress(progress);
-      }
+      // Total scrollable height of the page
+      const totalHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+
+      // Current scroll position
+      const scrollPosition = window.scrollY;
+
+      // Calculate percentage
+      const progress = (scrollPosition / totalHeight) * 100;
+
+      setReadProgress(Math.min(progress, 100));
     };
 
-    window.addEventListener("scroll", handleScroll);
+    // Initial calculation
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -49,7 +52,6 @@ export default function BlogDetailPage() {
       </div>
 
       <div className="pt-20"></div>
-
       <BlogHero blogPost={BLOG_POST} />
       <BlogContent content={BLOG_POST.content} tags={BLOG_POST.tags} />
       <AuthorBio author={BLOG_POST.author} />
