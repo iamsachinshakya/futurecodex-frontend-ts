@@ -6,7 +6,7 @@ import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScrol
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
 import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
 
-const Hero: React.FC = () => {
+const HomeHero: React.FC = () => {
   const scrollY = useScrollPosition({ throttle: 16 });
 
   return (
@@ -143,4 +143,4 @@ const Hero: React.FC = () => {
   );
 };
 
-export default Hero;
+export default HomeHero;

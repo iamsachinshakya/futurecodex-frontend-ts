@@ -320,7 +320,7 @@ export default function ContactHero() {
         </div>
       </div>
 
-      {/* Custom Animations */}
+      {/* Animations */}
       <style jsx>{`
         @keyframes float {
           0%,

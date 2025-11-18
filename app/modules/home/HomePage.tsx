@@ -1,9 +1,8 @@
-"use client";
 import Categories from "@/app/modules/home/components/Categories";
 import FeaturedPosts from "@/app/modules/home/components/FeaturedPosts";
-import Hero from "@/app/modules/home/components/Hero";
+import Hero from "@/app/modules/home/components/HomeHero";
 import AnimatedBackground from "@/app/shared/components/ui/AnimatedBackground";
-import React, { useState } from "react";
+import React from "react";
 
 const HomePage: React.FC = () => {
   return (

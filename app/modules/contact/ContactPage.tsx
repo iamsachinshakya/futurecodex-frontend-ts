@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-import { Mail, Phone, MapPin } from "lucide-react";
 import FloatingBackground from "@/app/shared/components/ui/FloatingBackground";
 import ContactHero from "@/app/modules/contact/components/ContactHero";
 import ContactMethod from "@/app/modules/contact/components/ContactMethod";
@@ -24,36 +23,6 @@ export default function ContactPage() {
       <ContactHero />
       <ContactForm />
       <MapSection />
-
-      <style jsx>{`
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px) rotate(45deg);
-          }
-          50% {
-            transform: translateY(-20px) rotate(45deg);
-          }
-        }
-
-        @keyframes float-delayed {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .animate-float-delayed {
-          animation: float-delayed 6s ease-in-out infinite 1s;
-        }
-      `}</style>
     </div>
   );
 }
