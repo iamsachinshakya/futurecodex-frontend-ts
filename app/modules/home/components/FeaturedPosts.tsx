@@ -95,9 +95,9 @@ const FeaturedPosts: React.FC = () => {
               delay={delays[idx]}
               threshold={0.2}
             >
-              <article className="group relative bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:scale-[1.02] cursor-pointer">
+              <article className="group relative bg-gray-800/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-cyan-500/50 transition-all duration-300 hover:scale-[1.02] cursor-pointer h-full flex flex-col">
                 {/* Image Container */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-64 overflow-hidden flex-shrink-0">
                   <Image
                     src={post.image}
                     alt={post.title}
@@ -118,16 +118,16 @@ const FeaturedPosts: React.FC = () => {
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
+                <div className="p-6 flex flex-col flex-grow">
                   <h3 className="text-2xl font-bold mb-3 group-hover:text-cyan-400 transition-colors duration-300">
                     {post.title}
                   </h3>
-                  <p className="text-gray-400 mb-4 line-clamp-2 leading-relaxed">
+                  <p className="text-gray-400 mb-4 line-clamp-2 leading-relaxed flex-grow">
                     {post.description}
                   </p>
 
                   {/* Meta Information */}
-                  <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div className="flex items-center justify-between text-sm text-gray-500 mt-auto">
                     <div className="flex items-center gap-4">
                       <span className="flex items-center gap-1">
                         <User size={16} />

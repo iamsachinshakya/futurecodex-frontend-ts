@@ -137,7 +137,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 style={{ animationDelay: `${index * 50}ms` }}
                 onClick={() => setIsMenuOpen(false)}
               >
-                href={nav.title}
+                {nav.title}
               </Link>
             ))}
             <div className="pt-4 space-y-3">

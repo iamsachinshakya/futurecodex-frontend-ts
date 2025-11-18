@@ -2,9 +2,12 @@
 
 import React, { useState } from "react";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
+import { SubscribeModal } from "@/app/modules/category/components/SubscribeModal";
+import { CATEGORIES } from "@/app/modules/category/utils/constants";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,8 +99,8 @@ const Footer: React.FC = () => {
                             className="flex-1 px-6 py-4 bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-white placeholder-gray-500"
                           />
                           <button
-                            type="submit"
-                            className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl font-semibold overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50"
+                            onClick={() => setShowSubscribeModal(true)}
+                            className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl  font-semibold overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/50"
                           >
                             <span className="relative z-10">Subscribe Now</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -123,7 +126,7 @@ const Footer: React.FC = () => {
                       </span>
                       . All rights reserved.
                     </p>
-                    <div className="flex items-center gap-3">
+                    {/* <div className="flex items-center gap-3">
                       <a
                         // href="https://FutureCodex.blog/privacy"
                         className="hover:text-cyan-400 transition-colors duration-300"
@@ -144,7 +147,7 @@ const Footer: React.FC = () => {
                       >
                         Cookies
                       </a>
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <span>Crafted with</span>
@@ -157,6 +160,12 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <SubscribeModal
+        isOpen={showSubscribeModal}
+        onClose={() => setShowSubscribeModal(false)}
+        categories={CATEGORIES}
+      />
     </footer>
   );
 };
