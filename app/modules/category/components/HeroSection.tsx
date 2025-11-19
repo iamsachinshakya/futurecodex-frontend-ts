@@ -1,13 +1,14 @@
 "use client";
 
 import { FilterButtons } from "@/app/modules/category/components/FilterButtons";
-import { FloatingElements } from "@/app/modules/category/components/FloatingElements";
 import { SearchBar } from "@/app/modules/category/components/SearchBar";
 import { FilterType } from "@/app/modules/category/types/types";
 import { Sparkles } from "lucide-react";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
 import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
+import FloatingBackground from "@/app/shared/components/ui/FloatingBackground";
+import FloatingElements from "@/app/shared/components/ui/FloatingElements";
 
 interface HeroSectionProps {
   searchQuery: string;
@@ -82,8 +83,46 @@ export function HeroSection({
         </div>
       </div>
 
-      {/* Floating Elements */}
-      <FloatingElements />
+      {/* Floating Elements with Parallax */}
+      <ParallaxElement
+        scrollY={scrollY}
+        speed={0.2}
+        className="absolute top-1/3 left-10"
+      >
+        <div className="w-20 h-20 border border-cyan-500/20 rounded-lg rotate-45 animate-float-slow"></div>
+      </ParallaxElement>
+
+      <ParallaxElement
+        scrollY={scrollY}
+        speed={0.15}
+        className="absolute bottom-1/3 right-10"
+      >
+        <div className="w-16 h-16 border border-purple-500/20 rounded-full animate-float-slow-delayed"></div>
+      </ParallaxElement>
+
+      {/* Additional Floating Elements */}
+      <ParallaxElement
+        scrollY={scrollY}
+        speed={0.1}
+        className="absolute top-1/2 left-1/4 hidden lg:block"
+      >
+        <div className="w-12 h-12 border border-pink-500/20 rounded-lg rotate-12 animate-float"></div>
+      </ParallaxElement>
+
+      <ParallaxElement
+        scrollY={scrollY}
+        speed={0.25}
+        className="absolute bottom-1/3 right-1/4 hidden lg:block"
+      >
+        <div className="w-14 h-14 border border-cyan-500/20 rounded-full animate-float-delayed"></div>
+      </ParallaxElement>
+
+      {/* Background Glow Effects */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse -z-10"></div>
+      <div
+        className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse -z-10"
+        style={{ animationDelay: "1s" }}
+      ></div>
     </section>
   );
 }

@@ -14,7 +14,7 @@ export function SearchBar({
   placeholder = "Search blogs...",
 }: SearchBarProps) {
   return (
-    <div className="relative flex-1 max-w-md">
+    <div className="relative flex-1 max-w-md mx-auto mb-10">
       <Search
         className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 transition-colors"
         size={20}
