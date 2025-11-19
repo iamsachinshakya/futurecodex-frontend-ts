@@ -5,14 +5,17 @@ import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScrol
 import { SubscribeModal } from "@/app/modules/category/components/SubscribeModal";
 import { CATEGORIES } from "@/app/modules/category/utils/constants";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setNewsLatterEmail } from "@/app/shared/redux/globalSlice";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const dispatch = useDispatch();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter subscription
+    dispatch(setNewsLatterEmail(email));
     console.log("Subscribing:", email);
   };
 
@@ -90,7 +93,7 @@ const Footer: React.FC = () => {
                       >
                         <form
                           onSubmit={handleSubscribe}
-                          className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
+                          className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto"
                         >
                           <input
                             type="email"

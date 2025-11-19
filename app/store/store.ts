@@ -1,9 +1,10 @@
 // app/store/store.ts
+import { globalReducer } from "@/app/shared/redux/globalSlice";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const store = configureStore({
     reducer: {
-        // modal: modalReducer,
+        global: globalReducer,
     },
 });
 

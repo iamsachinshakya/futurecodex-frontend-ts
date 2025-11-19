@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Sparkles, Check } from "lucide-react";
 import { Category } from "@/app/modules/category/types/types";
 import "@/app/styles/scrollbar.css";
+import { useSelector } from "react-redux";
+import { RootState } from "@/app/store/store";
 interface SubscribeModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -15,11 +17,18 @@ export function SubscribeModal({
   onClose,
   categories,
 }: SubscribeModalProps) {
+  const globalEmail = useSelector((state: RootState) => state.global.email);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    if (globalEmail) {
+      setEmail(globalEmail);
+    }
+  }, [globalEmail]);
 
   const handleSubmit = () => {
     if (!email || !name || selectedInterests.length === 0) return;
@@ -70,7 +79,7 @@ export function SubscribeModal({
                   </h2>
                   <button
                     onClick={onClose}
-                    className="p-2 rounded-full hover:bg-gray-700/50 transition-colors"
+                    className=" px-2 rounded-full hover:bg-gray-700/50 transition-colors"
                   >
                     <span className="text-2xl text-gray-300">×</span>
                   </button>
