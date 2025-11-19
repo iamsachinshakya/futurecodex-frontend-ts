@@ -3,6 +3,7 @@ import "@/app/styles/globals.css";
 import "@/app/styles/animations.css";
 import Header from "@/app/shared/components/layout/Header";
 import Footer from "@/app/shared/components/layout/Footer";
+import { ReduxProvider } from "@/app/store/providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <ReduxProvider>
+          <>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </>
+        </ReduxProvider>
       </body>
     </html>
   );
