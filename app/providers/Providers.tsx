@@ -1,5 +1,8 @@
 "use client";
 
+import BottomSheetWrapper from "@/app/modules/ui-wrappers/components/BottomSheetWrapper";
+import DialogWrapper from "@/app/modules/ui-wrappers/components/DialogWrapper";
+import DrawerWrapper from "@/app/modules/ui-wrappers/components/DrawerWrapper";
 import { QueryProvider } from "@/app/providers/QueryProvider";
 import { ReduxProvider } from "@/app/providers/ReduxProvider";
 import { Toaster } from "sonner";
@@ -10,6 +13,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <QueryProvider>
         {children}
         <Toaster position="bottom-right" richColors />
+        <BottomSheetWrapper />
+        <DialogWrapper />
+        <DrawerWrapper />
       </QueryProvider>
     </ReduxProvider>
   );
