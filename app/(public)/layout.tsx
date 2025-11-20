@@ -3,7 +3,7 @@ import "@/app/styles/globals.css";
 import "@/app/styles/animations.css";
 import Header from "@/app/shared/components/layout/Header";
 import Footer from "@/app/shared/components/layout/Footer";
-import { ReduxProvider } from "@/app/store/providers";
+import { ReduxProvider } from "@/app/providers/reduxProviders";
 
 export const metadata: Metadata = {
   title: "Create Next App",

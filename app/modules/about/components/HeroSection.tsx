@@ -4,7 +4,7 @@ import React from "react";
 import { Sparkles, ChevronRight } from "lucide-react";
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
-import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
+import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 
 interface HeroSectionProps {}
 

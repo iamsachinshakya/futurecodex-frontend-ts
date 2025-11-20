@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
-import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
+import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 import { ArrowLeft, Settings, Play, RotateCcw } from "lucide-react";
 import "../../../styles/animations.css";
 type Direction = "up" | "down" | "left" | "right" | "scale" | "none";

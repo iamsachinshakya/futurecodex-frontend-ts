@@ -1,7 +1,7 @@
 "use client";
 
+import { useIntersectionObserver } from "@/app/hooks/useIntersectionObserver";
 import React, { ReactNode, CSSProperties } from "react";
-import { useIntersectionObserver } from "@/app/shared/hooks/useIntersectionObserver";
 
 type AnimationDirection = "up" | "down" | "left" | "right" | "scale" | "none";
 type AnimationDelay = "none" | "short" | "medium" | "long";

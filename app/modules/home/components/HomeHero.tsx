@@ -4,7 +4,7 @@ import React from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
-import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
+import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 
 const HomeHero: React.FC = () => {
   const scrollY = useScrollPosition({ throttle: 16 });

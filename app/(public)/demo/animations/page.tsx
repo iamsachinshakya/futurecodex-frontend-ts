@@ -11,7 +11,7 @@ import {
   Move,
 } from "lucide-react";
 import "../../../styles/animations.css";
-import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
+import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
 

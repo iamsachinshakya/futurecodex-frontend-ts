@@ -4,7 +4,7 @@ import "@/app/styles/globals.css";
 import "@/app/styles/animations.css";
 import "@/app/styles/scrollbar.css";
 import { BackgroundEffects } from "@/app/modules/dashboard/components/layout/BackgroundEffects";
-import { ReduxProvider } from "@/app/store/providers";
+import { ReduxProvider } from "@/app/providers/reduxProviders";
 
 export default function DashboardLayout({
   children,

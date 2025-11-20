@@ -6,7 +6,7 @@ import { FilterType } from "@/app/modules/category/types/types";
 import { Sparkles } from "lucide-react";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
 import { ParallaxElement } from "@/app/shared/components/animations/ParallaxElement";
-import { useScrollPosition } from "@/app/shared/hooks/useScrollPosition";
+import { useScrollPosition } from "@/app/hooks/useScrollPosition";
 import FloatingBackground from "@/app/shared/components/ui/FloatingBackground";
 import FloatingElements from "@/app/shared/components/ui/FloatingElements";
 

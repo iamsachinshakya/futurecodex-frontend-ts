@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode, CSSProperties } from "react";
-import { useParallax } from "@/app/shared/hooks/useScrollPosition";
+import { useParallax } from "@/app/hooks/useScrollPosition";
 
 interface ParallaxElementProps {
   children: ReactNode;
