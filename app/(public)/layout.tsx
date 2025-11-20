@@ -3,7 +3,7 @@ import "@/app/styles/globals.css";
 import "@/app/styles/animations.css";
 import Header from "@/app/shared/components/layout/Header";
 import Footer from "@/app/shared/components/layout/Footer";
-import { ReduxProvider } from "@/app/providers/reduxProviders";
+import { Providers } from "@/app/providers/Providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,13 +18,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ReduxProvider>
+        <Providers>
           <>
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
           </>
-        </ReduxProvider>
+        </Providers>
       </body>
     </html>
   );

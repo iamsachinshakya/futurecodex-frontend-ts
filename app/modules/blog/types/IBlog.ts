@@ -69,3 +69,47 @@ export interface RecommendedPost {
 export interface RecommendedPostsProps {
     posts: RecommendedPost[];
 }
+
+
+// src/features/blog/types/blog.types.ts
+export interface Blog {
+    id: string;
+    title: string;
+    content: string;
+    excerpt?: string;
+    author: string;
+    category: string;
+    tags: string[];
+    coverImage?: string;
+    published: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface CreateBlogData {
+    title: string;
+    content: string;
+    excerpt?: string;
+    author: string;
+    category: string;
+    tags: string[];
+    coverImage?: string;
+    published?: boolean;
+}
+
+export interface UpdateBlogData extends Partial<CreateBlogData> { }
+
+export interface BlogsResponse {
+    data: Blog[];
+    total: number;
+    page: number;
+    limit: number;
+}
+
+export interface BlogFilters {
+    page?: number;
+    limit?: number;
+    category?: string;
+    search?: string;
+    published?: boolean;
+}
