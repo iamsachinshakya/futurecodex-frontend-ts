@@ -5,11 +5,17 @@ import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { LoginModal } from "@/app/shared/components/modals/auth/Login";
 import { RegisterModal } from "@/app/shared/components/modals/auth/Register";
+import { useDispatch } from "react-redux";
+import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
+import {
+  DialogType,
+  Mode,
+  OverlayData,
+} from "@/app/modules/ui-wrappers/types/IOverlayTypes";
+import { useResize } from "@/app/hooks/useResize";
+import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
 
-interface HeaderProps {
-  // onLoginClick: () => void;
-  // onRegisterClick: () => void;
-}
+interface HeaderProps {}
 
 const Header: React.FC<HeaderProps> = ({}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,15 +23,51 @@ const Header: React.FC<HeaderProps> = ({}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const dispatch = useDispatch();
+  const { isMobile } = useResize();
 
   const onLoginClick = () => {
-    setShowLoginModal(true);
-    setShowRegisterModal(false);
+    if (isMobile) {
+      dispatch(
+        setBottomSheet({
+          show: true,
+          type: DialogType.LOGIN,
+          state: null,
+          mode: null,
+        })
+      );
+    } else {
+      dispatch(
+        setDialog({
+          show: true,
+          type: DialogType.LOGIN,
+          state: null,
+          mode: null,
+        })
+      );
+    }
   };
 
   const onRegisterClick = () => {
-    setShowRegisterModal(true);
-    setShowLoginModal(false);
+    if (isMobile) {
+      dispatch(
+        setBottomSheet({
+          show: true,
+          type: DialogType.REGISTER,
+          state: null,
+          mode: null,
+        })
+      );
+    } else {
+      dispatch(
+        setDialog({
+          show: true,
+          type: DialogType.REGISTER,
+          state: null,
+          mode: null,
+        })
+      );
+    }
   };
 
   const handleCloseModals = () => {

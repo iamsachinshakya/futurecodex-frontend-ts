@@ -8,14 +8,14 @@ export interface OverlayData {
     show: boolean;
     type: string;
     state: any;
-    mode: Mode;
+    mode: Mode | null;
 }
 
 export const createInitialOverlayData = (): OverlayData => ({
     show: false,
     type: "",
     state: null,
-    mode: Mode.EDIT
+    mode: null
 });
 
 export interface BottomSheetState {
@@ -28,4 +28,19 @@ export interface DialogState {
 
 export interface DrawerState {
     drawer: OverlayData;
+}
+
+export enum DialogType {
+    LOGIN = "login",
+    REGISTER = "register"
+}
+
+export enum DrawerType {
+    LOGIN = "login",
+    REGISTER = "register"
+}
+
+export enum BottomSheetType {
+    LOGIN = "login",
+    REGISTER = "register"
 }
