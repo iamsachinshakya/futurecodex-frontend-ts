@@ -26,18 +26,25 @@ export default function BottomSheetWrapper() {
   useEffect(() => {
     if (bottomSheetState.show) {
       document.body.style.overflow = "hidden";
-      // Mount the component first
+
       setShouldRender(true);
-      // Then trigger the animation after a small delay
-      setTimeout(() => setIsAnimating(true), 10);
+
+      // small delay to allow mount before animation
+      setTimeout(() => {
+        setIsAnimating(true);
+      }, 20);
     } else {
       document.body.style.overflow = "unset";
-      // Start closing animation
+
       setIsAnimating(false);
-      // Delay unmount to match animation duration (500ms)
-      const timer = setTimeout(() => setShouldRender(false), 500);
+
+      const timer = setTimeout(() => {
+        setShouldRender(false);
+      }, 450); // match animation
+
       return () => clearTimeout(timer);
     }
+
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -66,29 +73,29 @@ export default function BottomSheetWrapper() {
       {/* Backdrop */}
       <div
         className={`
-          fixed inset-0 bg-black/60 backdrop-blur-sm 
-          transition-opacity duration-500 ease-in-out
+          fixed inset-0 bg-black/50 backdrop-blur-sm
+          transition-opacity duration-300 ease-out
           ${isAnimating ? "opacity-100" : "opacity-0"}
         `}
         onClick={closeBottomSheet}
-        aria-hidden="true"
       />
 
-      {/* Bottom Sheet Panel */}
+      {/* Bottom Sheet */}
       <div
         className={`
           fixed bottom-0 left-0 right-0
           w-full max-h-[90vh]
-          z-10
-          transform
-          transition-transform duration-500 ease-in-out
           bg-white dark:bg-gray-900
           text-gray-900 dark:text-white
-          border-t border-gray-200 dark:border-gray-800
-          shadow-2xl dark:shadow-black/50
-          rounded-t-2xl
-          overflow-y-auto
+          shadow-2xl border-t border-gray-300 dark:border-gray-700
+
+          transform transition-transform
+          duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
           ${isAnimating ? "translate-y-0" : "translate-y-full"}
+
+          rounded-t-3xl
+          overflow-y-auto
+          z-50
         `}
         onClick={(e) => e.stopPropagation()}
       >
@@ -97,7 +104,7 @@ export default function BottomSheetWrapper() {
           <div className="w-12 h-1 bg-gray-300 dark:bg-gray-700 rounded-full" />
         </div>
 
-        {list[component as BottomSheetType] || null}
+        {list[component as BottomSheetType] ?? null}
       </div>
     </div>
   );
