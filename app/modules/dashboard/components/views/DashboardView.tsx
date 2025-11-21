@@ -5,11 +5,9 @@ import { QuickActions } from "@/app/modules/dashboard/components/QuickActions";
 import { StatsGrid } from "@/app/modules/dashboard/components/StatsGrid";
 import { Eye, Users, Heart, MessageSquare } from "lucide-react";
 
-interface DashboardViewProps {
-  onNewBlog: () => void;
-}
+interface DashboardViewProps {}
 
-export function DashboardView({ onNewBlog }: DashboardViewProps) {
+export function DashboardView({}: DashboardViewProps) {
   const stats = [
     {
       icon: <Eye size={24} />,
@@ -82,11 +80,7 @@ export function DashboardView({ onNewBlog }: DashboardViewProps) {
       <StatsGrid stats={stats} />
 
       {/* Quick Actions */}
-      <QuickActions
-        onNewBlog={onNewBlog}
-        onViewAnalytics={() => {}}
-        onEditProfile={() => {}}
-      />
+      <QuickActions onViewAnalytics={() => {}} onEditProfile={() => {}} />
 
       {/* Recent Blogs */}
       <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">

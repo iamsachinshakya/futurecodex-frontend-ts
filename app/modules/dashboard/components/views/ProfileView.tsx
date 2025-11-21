@@ -1,20 +1,20 @@
 "use client";
 
 import { Edit, Eye, Users, Heart } from "lucide-react";
+import { useState } from "react";
 
-interface ProfileViewProps {
-  name: string;
-  email: string;
-  bio: string;
-  onEditProfile: () => void;
-}
+interface ProfileViewProps {}
 
-export function ProfileView({
-  name,
-  email,
-  bio,
-  onEditProfile,
-}: ProfileViewProps) {
+export function ProfileView({}: ProfileViewProps) {
+  // Profile data
+  const [profileName, setProfileName] = useState("Sarah Chen");
+  const [profileEmail, setProfileEmail] = useState(
+    "sarah.chen@FutureCodex.com"
+  );
+  const [profileBio, setProfileBio] = useState("Tech writer & AI enthusiast");
+
+  const onEditProfile = () => {};
+
   const stats = [
     {
       icon: <Eye size={24} />,
@@ -41,15 +41,15 @@ export function ProfileView({
       <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
         <div className="flex items-start gap-6">
           <div className="w-32 h-32 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 flex items-center justify-center text-4xl font-bold">
-            {name
+            {profileName
               .split(" ")
               .map((n) => n[0])
               .join("")}
           </div>
           <div className="flex-1">
-            <h3 className="text-2xl font-bold mb-2">{name}</h3>
-            <p className="text-gray-400 mb-4">{email}</p>
-            <p className="text-gray-300 mb-4">{bio}</p>
+            <h3 className="text-2xl font-bold mb-2">{profileName}</h3>
+            <p className="text-gray-400 mb-4">{profileEmail}</p>
+            <p className="text-gray-300 mb-4">{profileBio}</p>
             <button
               onClick={onEditProfile}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl hover:scale-105 transition-all shadow-lg shadow-cyan-500/25"

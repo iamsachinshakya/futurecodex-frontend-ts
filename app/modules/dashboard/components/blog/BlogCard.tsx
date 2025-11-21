@@ -3,14 +3,14 @@
 import { Eye, Heart, Calendar, Edit, Trash2 } from "lucide-react";
 
 interface BlogCardProps {
-  id: number;
+  id: string;
   title: string;
   views: number;
   likes: number;
   status: string;
   date: string;
-  onEdit?: (id: number) => void;
-  onDelete?: (id: number) => void;
+  onEditBlog: (id: string) => void;
+  onDeleteBlog: (id: string) => void;
 }
 
 export function BlogCard({
@@ -20,8 +20,8 @@ export function BlogCard({
   likes,
   status,
   date,
-  onEdit,
-  onDelete,
+  onEditBlog,
+  onDeleteBlog,
 }: BlogCardProps) {
   return (
     <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 hover:border-cyan-500/50 transition-all">
@@ -52,7 +52,7 @@ export function BlogCard({
       </div>
       <div className="flex gap-2">
         <button
-          onClick={() => onEdit?.(id)}
+          onClick={() => onDeleteBlog(id)}
           className="flex items-center gap-2 px-4 py-2 bg-cyan-500/10 text-cyan-400 rounded-lg hover:bg-cyan-500/20 transition-all"
         >
           <Edit size={16} />
@@ -63,7 +63,7 @@ export function BlogCard({
           View
         </button>
         <button
-          onClick={() => onDelete?.(id)}
+          onClick={() => onEditBlog(id)}
           className="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-all"
         >
           <Trash2 size={16} />
