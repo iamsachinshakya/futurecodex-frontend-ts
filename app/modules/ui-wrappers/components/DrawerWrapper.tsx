@@ -53,10 +53,10 @@ export default function DrawerWrapper() {
 
   const list: Partial<Record<DrawerType, JSX.Element>> = {
     [DrawerType.LOGIN]: (
-      <LoginContent onClose={closeDrawer} data={drawerState.state} />
+      <LoginContent onClose={closeDrawer} data={drawerState} />
     ),
     [DrawerType.REGISTER]: (
-      <RegisterContent onClose={closeDrawer} data={drawerState.state} />
+      <RegisterContent onClose={closeDrawer} data={drawerState} />
     ),
   };
 

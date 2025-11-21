@@ -1,5 +1,6 @@
 "use client";
 
+import { SubscribeContent } from "@/app/modules/category/components/modals/SubscribeContent";
 import {
   clearDialog,
   getDialogState,
@@ -26,9 +27,7 @@ export default function DialogWrapper() {
   useEffect(() => {
     if (dialogState.show) {
       document.body.style.overflow = "hidden";
-      // Mount the component first
       setShouldRender(true);
-      // Then trigger the animation after a small delay
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setIsAnimating(true);
@@ -36,9 +35,7 @@ export default function DialogWrapper() {
       });
     } else {
       document.body.style.overflow = "unset";
-      // Start closing animation
       setIsAnimating(false);
-      // Delay unmount to match animation duration (300ms)
       const timer = setTimeout(() => setShouldRender(false), 300);
       return () => clearTimeout(timer);
     }
@@ -51,12 +48,28 @@ export default function DialogWrapper() {
     await dispatch(clearDialog());
   };
 
+  // Helper function to get modal width
+  const getModalWidth = () => {
+    switch (dialogState.type) {
+      case DialogType.SUBSCRIBE:
+        return "max-w-2xl";
+      case DialogType.LOGIN:
+      case DialogType.REGISTER:
+        return "max-w-md";
+      default:
+        return "max-w-md";
+    }
+  };
+
   const list: Partial<Record<DialogType, JSX.Element>> = {
     [DialogType.LOGIN]: (
-      <LoginContent onClose={closeModal} data={dialogState.state} />
+      <LoginContent onClose={closeModal} data={dialogState} />
     ),
     [DialogType.REGISTER]: (
-      <RegisterContent onClose={closeModal} data={dialogState.state} />
+      <RegisterContent onClose={closeModal} data={dialogState} />
+    ),
+    [DialogType.SUBSCRIBE]: (
+      <SubscribeContent onClose={closeModal} data={dialogState} />
     ),
   };
 
@@ -68,7 +81,6 @@ export default function DialogWrapper() {
       role="dialog"
       aria-modal="true"
     >
-      {/* Backdrop */}
       <div
         className={`
           fixed inset-0 bg-black/60 backdrop-blur-sm 
@@ -79,13 +91,11 @@ export default function DialogWrapper() {
         aria-hidden="true"
       />
 
-      {/* Centering wrapper */}
       <div className="flex items-center justify-center min-h-full p-4">
-        {/* Modal Panel */}
         <div
           className={`
             relative z-10
-            w-full max-w-md
+            w-full ${getModalWidth()}
             transform transition-all duration-300 ease-in-out
             bg-white dark:bg-gray-900
             text-gray-900 dark:text-white

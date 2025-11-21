@@ -2,20 +2,39 @@
 
 import React, { useState } from "react";
 import { FadeInOnScroll } from "@/app/shared/components/animations/FadeInOnScroll";
-import { SubscribeModal } from "@/app/modules/category/components/SubscribeModal";
-import { CATEGORIES } from "@/app/modules/category/utils/constants";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { setNewsLatterEmail } from "@/app/shared/redux/globalSlice";
+import { useResize } from "@/app/hooks/useResize";
+import { setOverlayState } from "@/app/shared/redux/globalSlice";
+import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
+import { DialogType } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
+import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
-  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const dispatch = useDispatch();
+  const { isMobile } = useResize();
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(setNewsLatterEmail(email));
+  const handleSubscribe = () => {
+    dispatch(setOverlayState(email));
+
+    if (isMobile) {
+      dispatch(
+        setBottomSheet({
+          show: true,
+          type: DialogType.SUBSCRIBE,
+          mode: null,
+        })
+      );
+    } else {
+      dispatch(
+        setDialog({
+          show: true,
+          type: DialogType.SUBSCRIBE,
+          mode: null,
+        })
+      );
+    }
     console.log("Subscribing:", email);
   };
 
@@ -91,10 +110,7 @@ const Footer: React.FC = () => {
                         delay="long"
                         threshold={0.5}
                       >
-                        <form
-                          onSubmit={handleSubscribe}
-                          className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto"
-                        >
+                        <div className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
                           <input
                             type="email"
                             value={email}
@@ -103,13 +119,13 @@ const Footer: React.FC = () => {
                             className="flex-1 px-6 py-4 bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 rounded-2xl focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all duration-300 text-white placeholder-gray-500"
                           />
                           <button
-                            onClick={() => setShowSubscribeModal(true)}
+                            onClick={handleSubscribe}
                             className="group relative px-8 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl  font-semibold overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-cyan-500/50"
                           >
                             <span className="relative z-10">Subscribe Now</span>
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                           </button>
-                        </form>
+                        </div>
                       </FadeInOnScroll>
                     </div>
                   </div>
@@ -164,12 +180,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <SubscribeModal
-        isOpen={showSubscribeModal}
-        onClose={() => setShowSubscribeModal(false)}
-        categories={CATEGORIES}
-      />
     </footer>
   );
 };

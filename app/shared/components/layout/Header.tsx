@@ -32,7 +32,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
         setBottomSheet({
           show: true,
           type: DialogType.LOGIN,
-          state: null,
           mode: null,
         })
       );
@@ -41,7 +40,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
         setDialog({
           show: true,
           type: DialogType.LOGIN,
-          state: null,
           mode: null,
         })
       );
@@ -54,7 +52,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
         setBottomSheet({
           show: true,
           type: DialogType.REGISTER,
-          state: null,
           mode: null,
         })
       );
@@ -63,7 +60,6 @@ const Header: React.FC<HeaderProps> = ({}) => {
         setDialog({
           show: true,
           type: DialogType.REGISTER,
-          state: null,
           mode: null,
         })
       );

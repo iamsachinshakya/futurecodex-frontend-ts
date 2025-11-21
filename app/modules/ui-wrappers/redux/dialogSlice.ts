@@ -19,6 +19,7 @@ export const dialogSlice = createSlice({
   },
 });
 
+// helpers functions
 export const getDialogState = (state: { dialog: DialogState }) =>
   state.dialog.dialog;
 

@@ -1,27 +1,43 @@
-// /app/store/slices/userSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface UserState {
-    email: string | null;
+export interface GlobalState {
+    overlayState: any | null;   // pass any modal/bottom-sheet state
+    pincode: string;            // user pincode or location-based
 }
 
-const initialState: UserState = {
-    email: null,
+const initialState: GlobalState = {
+    overlayState: null,
+    pincode: "",
 };
 
 const globalSlice = createSlice({
     name: "global",
     initialState,
     reducers: {
-        setNewsLatterEmail: (state, action: PayloadAction<string>) => {
-            state.email = action.payload;
+        setOverlayState: (state, action: PayloadAction<any>) => {
+            state.overlayState = action.payload;
         },
 
-        clearNewsLatterEmail: (state) => {
-            state.email = null;
+        clearOverlayState: (state) => {
+            state.overlayState = null;
+        },
+
+        setPincode: (state, action: PayloadAction<string>) => {
+            state.pincode = action.payload;
         },
     },
 });
 
-export const { setNewsLatterEmail, clearNewsLatterEmail } = globalSlice.actions;
+// helpers functions
+// Selector to get overlay state
+export const getOverlayState = (state: { global: GlobalState }) =>
+    state.global.overlayState;
+
+
+export const {
+    setOverlayState,
+    clearOverlayState,
+    setPincode,
+} = globalSlice.actions;
+
 export const globalReducer = globalSlice.reducer;

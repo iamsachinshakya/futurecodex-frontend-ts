@@ -1,5 +1,6 @@
 "use client";
 
+import { SubscribeContent } from "@/app/modules/category/components/modals/SubscribeContent";
 import {
   clearBottomSheet,
   getBottomSheetState,
@@ -56,13 +57,13 @@ export default function BottomSheetWrapper() {
 
   const list: Partial<Record<BottomSheetType, JSX.Element>> = {
     [BottomSheetType.LOGIN]: (
-      <LoginContent onClose={closeBottomSheet} data={bottomSheetState.state} />
+      <LoginContent onClose={closeBottomSheet} data={bottomSheetState} />
     ),
     [BottomSheetType.REGISTER]: (
-      <RegisterContent
-        onClose={closeBottomSheet}
-        data={bottomSheetState.state}
-      />
+      <RegisterContent onClose={closeBottomSheet} data={bottomSheetState} />
+    ),
+    [BottomSheetType.SUBSCRIBE]: (
+      <SubscribeContent onClose={closeBottomSheet} data={bottomSheetState} />
     ),
   };
 

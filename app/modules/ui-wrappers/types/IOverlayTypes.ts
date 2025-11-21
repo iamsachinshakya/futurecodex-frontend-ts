@@ -7,14 +7,12 @@ export enum Mode {
 export interface OverlayData {
     show: boolean;
     type: string;
-    state: any;
     mode: Mode | null;
 }
 
 export const createInitialOverlayData = (): OverlayData => ({
     show: false,
     type: "",
-    state: null,
     mode: null
 });
 
@@ -32,7 +30,9 @@ export interface DrawerState {
 
 export enum DialogType {
     LOGIN = "login",
-    REGISTER = "register"
+    REGISTER = "register",
+    SUBSCRIBE = "subscribe",
+
 }
 
 export enum DrawerType {
@@ -42,5 +42,7 @@ export enum DrawerType {
 
 export enum BottomSheetType {
     LOGIN = "login",
-    REGISTER = "register"
+    REGISTER = "register",
+    SUBSCRIBE = "subscribe",
+
 }
