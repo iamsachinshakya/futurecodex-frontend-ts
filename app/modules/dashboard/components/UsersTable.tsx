@@ -10,7 +10,6 @@ import {
   CheckCircle,
   AlertTriangle,
 } from "lucide-react";
-import { UserModal } from "@/app/modules/dashboard/components/modals/UserModal";
 
 interface User {
   id: number;
@@ -353,7 +352,7 @@ export function UsersTable() {
       </div>
 
       {/* User Create/Edit Modal */}
-      <UserModal
+      {/* <UserModal
         isOpen={showUserModal}
         onClose={() => {
           setShowUserModal(false);
@@ -361,7 +360,7 @@ export function UsersTable() {
         }}
         user={editingUser}
         onSave={handleSaveUser}
-      />
+      /> */}
 
       {/* Delete Confirmation Alert */}
       {showDeleteAlert && userToDelete && (

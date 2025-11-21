@@ -1,6 +1,11 @@
 "use client";
 
 import { SubscribeContent } from "@/app/modules/category/components/modals/SubscribeContent";
+import { AddBlogContent } from "@/app/modules/dashboard/components/modals/contents/AddBlogContent";
+import { AddCategoryContent } from "@/app/modules/dashboard/components/modals/contents/AddCategoryContent";
+import { AddCommentContent } from "@/app/modules/dashboard/components/modals/contents/AddCommentContent";
+import { AddProfileContent } from "@/app/modules/dashboard/components/modals/contents/AddProfileContent";
+import { ResetPasswordContent } from "@/app/modules/dashboard/components/modals/contents/ResetPasswordContent";
 import {
   clearDialog,
   getDialogState,
@@ -70,6 +75,26 @@ export default function DialogWrapper() {
     ),
     [DialogType.SUBSCRIBE]: (
       <SubscribeContent onClose={closeModal} data={dialogState} />
+    ),
+
+    [DialogType.ADD_BLOG]: (
+      <AddBlogContent onClose={closeModal} data={dialogState} />
+    ),
+
+    [DialogType.ADD_CATEGORY]: (
+      <AddCategoryContent onClose={closeModal} data={dialogState} />
+    ),
+
+    [DialogType.ADD_COMMENT]: (
+      <AddCommentContent onClose={closeModal} data={dialogState} />
+    ),
+
+    [DialogType.ADD_PROFILE]: (
+      <AddProfileContent onClose={closeModal} data={dialogState} />
+    ),
+
+    [DialogType.RESET_PASSWORD]: (
+      <ResetPasswordContent onClose={closeModal} data={dialogState} />
     ),
   };
 

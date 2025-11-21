@@ -1,6 +1,11 @@
 "use client";
 
 import { SubscribeContent } from "@/app/modules/category/components/modals/SubscribeContent";
+import { AddBlogContent } from "@/app/modules/dashboard/components/modals/contents/AddBlogContent";
+import { AddCategoryContent } from "@/app/modules/dashboard/components/modals/contents/AddCategoryContent";
+import { AddCommentContent } from "@/app/modules/dashboard/components/modals/contents/AddCommentContent";
+import { AddProfileContent } from "@/app/modules/dashboard/components/modals/contents/AddProfileContent";
+import { ResetPasswordContent } from "@/app/modules/dashboard/components/modals/contents/ResetPasswordContent";
 import {
   clearBottomSheet,
   getBottomSheetState,
@@ -64,6 +69,29 @@ export default function BottomSheetWrapper() {
     ),
     [BottomSheetType.SUBSCRIBE]: (
       <SubscribeContent onClose={closeBottomSheet} data={bottomSheetState} />
+    ),
+
+    [BottomSheetType.ADD_BLOG]: (
+      <AddBlogContent onClose={closeBottomSheet} data={bottomSheetState} />
+    ),
+
+    [BottomSheetType.ADD_CATEGORY]: (
+      <AddCategoryContent onClose={closeBottomSheet} data={bottomSheetState} />
+    ),
+
+    [BottomSheetType.ADD_COMMENT]: (
+      <AddCommentContent onClose={closeBottomSheet} data={bottomSheetState} />
+    ),
+
+    [BottomSheetType.ADD_PROFILE]: (
+      <AddProfileContent onClose={closeBottomSheet} data={bottomSheetState} />
+    ),
+
+    [BottomSheetType.RESET_PASSWORD]: (
+      <ResetPasswordContent
+        onClose={closeBottomSheet}
+        data={bottomSheetState}
+      />
     ),
   };
 

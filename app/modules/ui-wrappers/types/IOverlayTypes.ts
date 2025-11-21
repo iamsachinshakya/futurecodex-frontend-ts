@@ -32,7 +32,11 @@ export enum DialogType {
     LOGIN = "login",
     REGISTER = "register",
     SUBSCRIBE = "subscribe",
-
+    ADD_BLOG = "add-blog",
+    ADD_CATEGORY = "add-category",
+    ADD_COMMENT = "add-comment",
+    ADD_PROFILE = "add-profile",
+    RESET_PASSWORD = "reset-password"
 }
 
 export enum DrawerType {
@@ -44,5 +48,10 @@ export enum BottomSheetType {
     LOGIN = "login",
     REGISTER = "register",
     SUBSCRIBE = "subscribe",
+    ADD_BLOG = "add-blog",
+    ADD_CATEGORY = "add-category",
+    ADD_COMMENT = "add-comment",
+    ADD_PROFILE = "add-profile",
+    RESET_PASSWORD = "reset-password"
 
 }

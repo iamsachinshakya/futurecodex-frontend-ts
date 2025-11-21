@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Users, MessageSquare, FolderOpen } from "lucide-react";
-import { UsersTable } from "@/app/modules/dashboard/UsersTable";
+import { UsersTable } from "@/app/modules/dashboard/components/UsersTable";
 import { CommentsTable } from "@/app/modules/dashboard/components/CommentsTable";
 import { CategoriesTable } from "@/app/modules/dashboard/components/CategoriesTable";
 
