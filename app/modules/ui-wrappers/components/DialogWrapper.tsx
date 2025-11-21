@@ -56,11 +56,11 @@ export default function DialogWrapper() {
   const getModalWidth = () => {
     switch (dialogState.type) {
       case DialogType.SUBSCRIBE:
+      case DialogType.REGISTER:
         return "max-w-2xl";
       case DialogType.ADD_BLOG:
         return "max-w-4xl";
       case DialogType.LOGIN:
-      case DialogType.REGISTER:
         return "max-w-md";
       default:
         return "max-w-md";

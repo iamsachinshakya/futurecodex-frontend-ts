@@ -1,8 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { X } from "lucide-react";
-import { OverlayData } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
+import {
+  DialogType,
+  OverlayData,
+} from "@/app/modules/ui-wrappers/types/IOverlayTypes";
+import { useDispatch } from "react-redux";
+import { useResize } from "@/app/hooks/useResize";
+import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
+import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
+import { LoginCredentials } from "@/app/modules/users/types/IUserTypes";
+import { useLogin } from "@/app/modules/auth/hooks/useAuth";
 
 interface LoginContentProps {
   onClose: () => void;
@@ -13,19 +23,48 @@ export const LoginContent: React.FC<LoginContentProps> = ({
   onClose,
   data,
 }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { isMobile } = useResize();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle login
-    console.log("Login:", { email, password });
-    close(); // Close modal after successful login
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginCredentials>();
+
+  const loginMutation = useLogin();
+  const isLoading = loginMutation.status === "pending";
+
+  const onSubmit = (values: LoginCredentials) => {
+    loginMutation.mutate(values, {
+      onSuccess: () => {
+        onClose();
+      },
+      onError: (error) => {
+        console.log("Login failed", error);
+        // toast handled in useLogin
+      },
+    });
   };
 
   const handleSwitchToRegister = () => {
-    close(); // Close login modal
-    // onSwitchToRegister?.(); // Trigger register modal
+    if (isMobile) {
+      dispatch(
+        setBottomSheet({
+          show: true,
+          type: DialogType.REGISTER,
+          mode: null,
+        })
+      );
+    } else {
+      dispatch(
+        setDialog({
+          show: true,
+          type: DialogType.REGISTER,
+          mode: null,
+        })
+      );
+    }
   };
 
   return (
@@ -51,19 +90,29 @@ export const LoginContent: React.FC<LoginContentProps> = ({
           Login to access your FutureCodex account
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
             <label className="block text-sm font-semibold text-gray-300 mb-2">
               Email Address
             </label>
             <input
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               placeholder="you@example.com"
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all text-white placeholder-gray-500"
-              required
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: "Invalid email address",
+                },
+              })}
+              aria-invalid={errors.email ? "true" : "false"}
             />
+            {errors.email && (
+              <span className="text-red-400 text-xs">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           <div>
@@ -72,12 +121,16 @@ export const LoginContent: React.FC<LoginContentProps> = ({
             </label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700/50 rounded-xl focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition-all text-white placeholder-gray-500"
-              required
+              {...register("password", { required: "Password is required" })}
+              aria-invalid={errors.password ? "true" : "false"}
             />
+            {errors.password && (
+              <span className="text-red-400 text-xs">
+                {errors.password.message}
+              </span>
+            )}
           </div>
 
           <div className="flex items-center justify-between text-sm">
@@ -88,6 +141,7 @@ export const LoginContent: React.FC<LoginContentProps> = ({
             <a
               href="#"
               className="text-cyan-400 hover:text-cyan-300 transition-colors"
+              onClick={(e) => e.preventDefault()}
             >
               Forgot password?
             </a>
@@ -95,9 +149,10 @@ export const LoginContent: React.FC<LoginContentProps> = ({
 
           <button
             type="submit"
+            disabled={isSubmitting || isLoading}
             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold hover:scale-[1.02] transition-transform shadow-lg shadow-cyan-500/25"
           >
-            Sign In
+            {isLoading ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
@@ -105,7 +160,7 @@ export const LoginContent: React.FC<LoginContentProps> = ({
           Don't have an account?{" "}
           <button
             onClick={handleSwitchToRegister}
-            className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors"
+            className="text-cyan-400 hover:text-cyan-300 font-semibold transition-colors cursor-pointer"
           >
             Register here
           </button>

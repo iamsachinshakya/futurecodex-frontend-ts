@@ -1,0 +1,135 @@
+import { z } from "zod";
+
+export const registerUserSchema = z.object({
+    fullName: z
+        .string()
+        .nonempty("Full name is required")
+        .trim()
+        .min(3, "Full name must be at least 3 characters long")
+        .max(50, "Full name must be at most 50 characters long"),
+
+    username: z
+        .string()
+        .nonempty("Username is required")
+        .trim()
+        .toLowerCase()
+        .min(3, "Username must be at least 3 characters long")
+        .max(20, "Username must be at most 20 characters long")
+        .regex(
+            /^[a-z0-9_]+$/,
+            "Username can only contain lowercase letters, numbers, and underscores"
+        ),
+
+    email: z
+        .string()
+        .nonempty("Email is required")
+        .trim()
+        .email("Invalid email address"),
+
+    password: z
+        .string()
+        .nonempty("Password is required")
+        .min(8, "Password must be at least 8 characters long")
+        .max(64, "Password must be at most 64 characters long")
+        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+        .regex(/[0-9]/, "Password must contain at least one number")
+        .regex(/[@$!%*?&#]/, "Password must contain at least one special character (@$!%*?&#)"),
+});
+
+
+export const loginUserSchema = z.object({
+    email: z
+        .string()
+        .nonempty("Email is required")
+        .trim()
+        .email("Invalid email address"),
+
+    password: z
+        .string()
+        .nonempty("Password is required")
+        .min(8, "Password must be at least 8 characters long")
+        .max(64, "Password must be at most 64 characters long")
+        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+        .regex(/[0-9]/, "Password must contain at least one number")
+        .regex(/[@$!%*?&#]/, "Password must contain at least one special character (@$!%*?&#)"),
+});
+
+/**
+ * Schema: Update User
+ * - All fields optional (for partial updates)
+ * - Includes nested preferences validation
+ */
+export const updateUserSchema = z.object({
+    fullName: z
+        .string()
+        .trim()
+        .min(3, "Full name must be at least 3 characters long")
+        .max(50, "Full name must be at most 50 characters long")
+        .optional(),
+
+    email: z
+        .string()
+        .trim()
+        .email("Invalid email address")
+        .optional(),
+
+    username: z
+        .string()
+        .trim()
+        .toLowerCase()
+        .min(3, "Username must be at least 3 characters long")
+        .max(20, "Username must be at most 20 characters long")
+        .regex(/^[a-z0-9_]+$/, "Username can only contain lowercase letters, numbers, and underscores")
+        .optional(),
+
+    bio: z
+        .string()
+        .max(500, "Bio must be at most 500 characters long")
+        .optional(),
+
+})
+    .refine(
+        (data) => Object.values(data).some((v) => v !== undefined && v !== null),
+        {
+            message: "At least one field must be provided for update.",
+            path: [],
+        }
+    );
+
+
+export const updatePasswordSchema = z.object({
+    newPassword: z
+        .string()
+        .nonempty("Password is required")
+        .min(8, "Password must be at least 8 characters long")
+        .max(64, "Password must be at most 64 characters long")
+        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+        .regex(/[0-9]/, "Password must contain at least one number")
+        .regex(/[@$!%*?&#]/, "Password must contain at least one special character (@$!%*?&#)"),
+});
+
+// Social links schema
+export const socialLinksSchema = z
+    .object({
+        github: z.url().nullable().optional(),
+        linkedin: z.url().nullable().optional(),
+        twitter: z.url().nullable().optional(),
+        website: z.url().nullable().optional(),
+    })
+    .refine((data) => Object.values(data).some((value) => value !== null && value !== undefined && value !== ""), {
+        message: "At least one social link must be provided",
+    });
+
+// User preferences schema
+export const userPreferencesSchema = z
+    .object({
+        emailNotifications: z.boolean().optional(),
+        marketingUpdates: z.boolean().optional(),
+        twoFactorAuth: z.boolean().optional(),
+    })
+    .refine((data) => Object.keys(data).length > 0, {
+        message: "At least one preference must be provided",
+    });
