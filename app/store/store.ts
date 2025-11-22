@@ -1,4 +1,5 @@
 // app/store/store.ts
+import { authReducer } from "@/app/modules/auth/redux/authSlice";
 import { bottomSheetReducer } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
 import { dialogReducer } from "@/app/modules/ui-wrappers/redux/dialogSlice";
 import { drawerReducer } from "@/app/modules/ui-wrappers/redux/drawerSlice";
@@ -10,7 +11,8 @@ export const store = configureStore({
         global: globalReducer,
         bottomSheet: bottomSheetReducer,
         dialog: dialogReducer,
-        drawer: drawerReducer
+        drawer: drawerReducer,
+        auth: authReducer
     },
 });
 

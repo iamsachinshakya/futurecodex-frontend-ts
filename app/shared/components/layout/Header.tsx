@@ -3,28 +3,32 @@
 import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { LoginModal } from "@/app/shared/components/modals/auth/Login";
-import { RegisterModal } from "@/app/shared/components/modals/auth/Register";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
-import {
-  DialogType,
-  Mode,
-  OverlayData,
-} from "@/app/modules/ui-wrappers/types/IOverlayTypes";
+import { DialogType } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
 import { useResize } from "@/app/hooks/useResize";
 import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
+import { useLogout } from "@/app/modules/auth/hooks/useAuth";
+import { toast } from "sonner";
+import {
+  selectAuthUser,
+  selectAuthLoading,
+} from "@/app/modules/auth/redux/authSlice";
+import { UserRole } from "@/app/modules/users/types/IUserTypes";
 
 interface HeaderProps {}
 
-const Header: React.FC<HeaderProps> = ({}) => {
+const Header: React.FC<HeaderProps> = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showRegisterModal, setShowRegisterModal] = useState(false);
   const dispatch = useDispatch();
   const { isMobile } = useResize();
+
+  const user = useSelector(selectAuthUser);
+  const isLoading = useSelector(selectAuthLoading);
+
+  const logoutMutation = useLogout();
 
   const onLoginClick = () => {
     if (isMobile) {
@@ -66,26 +70,41 @@ const Header: React.FC<HeaderProps> = ({}) => {
     }
   };
 
-  const handleCloseModals = () => {
-    setShowLoginModal(false);
-    setShowRegisterModal(false);
+  const handleLogout = () => {
+    logoutMutation.mutate(undefined, {
+      onSuccess: () => {
+        toast.success("Logged out successfully");
+        setIsMenuOpen(false);
+      },
+      onError: () => {
+        toast.error("Logout failed");
+      },
+    });
   };
 
   useEffect(() => {
-    // Trigger entrance animation
     setIsVisible(true);
-
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Add base navigation links
   const navLinks = [
     { title: "Home", link: "/" },
     { title: "About", link: "/about" },
     { title: "Categories", link: "/categories" },
     { title: "Contact", link: "/contact" },
   ];
+
+  if (
+    user &&
+    (user.role === UserRole.ADMIN ||
+      user.role === UserRole.AUTHOR ||
+      user.role === UserRole.EDITOR)
+  ) {
+    navLinks.push({ title: "Dashboard", link: "/dashboard" });
+  }
 
   return (
     <>
@@ -100,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({}) => {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            {/* Logo with Scale Animation */}
+            {/* Logo */}
             <Link
               href={"/"}
               className={`text-2xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent transition-all duration-700 ${
@@ -126,24 +145,46 @@ const Header: React.FC<HeaderProps> = ({}) => {
                 </Link>
               ))}
 
-              {/* Action Buttons */}
+              {/* Auth UI */}
               <div className="flex items-center gap-3 ml-4">
-                <button
-                  onClick={onLoginClick}
-                  className={`px-5 py-2 text-cyan-400 border border-cyan-500/50 rounded-full hover:bg-cyan-500/10 hover:scale-105 transition-all duration-300 ${
-                    isVisible ? "animate-fade-in-down delay-400" : "opacity-0"
-                  }`}
-                >
-                  Login
-                </button>
-                <button
-                  onClick={onRegisterClick}
-                  className={`px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full font-semibold hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 ${
-                    isVisible ? "animate-fade-in-down delay-500" : "opacity-0"
-                  }`}
-                >
-                  Register
-                </button>
+                {isLoading ? (
+                  <span className="text-cyan-400">Loading...</span>
+                ) : user ? (
+                  <>
+                    <span className="text-cyan-400">
+                      Hello, {user.username}
+                    </span>
+                    <button
+                      onClick={handleLogout}
+                      className="px-5 py-2 text-red-500 border border-red-600 rounded-full hover:bg-red-600 hover:text-white transition-all duration-300"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={onLoginClick}
+                      className={`px-5 py-2 text-cyan-400 border border-cyan-500/50 rounded-full hover:bg-cyan-500/10 hover:scale-105 transition-all duration-300 ${
+                        isVisible
+                          ? "animate-fade-in-down delay-400"
+                          : "opacity-0"
+                      }`}
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={onRegisterClick}
+                      className={`px-5 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full font-semibold hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 ${
+                        isVisible
+                          ? "animate-fade-in-down delay-500"
+                          : "opacity-0"
+                      }`}
+                    >
+                      Register
+                    </button>
+                  </>
+                )}
               </div>
             </div>
 
@@ -180,43 +221,51 @@ const Header: React.FC<HeaderProps> = ({}) => {
               </Link>
             ))}
             <div className="pt-4 space-y-3">
-              <button
-                onClick={() => {
-                  onLoginClick();
-                  setIsMenuOpen(false);
-                }}
-                className={`w-full px-5 py-3 text-cyan-400 border border-cyan-500/50 rounded-full hover:bg-cyan-500/10 transition-all duration-300 ${
-                  isMenuOpen ? "animate-fade-in-up delay-200" : "opacity-0"
-                }`}
-              >
-                Login
-              </button>
-              <button
-                onClick={() => {
-                  onRegisterClick();
-                  setIsMenuOpen(false);
-                }}
-                className={`w-full px-5 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full font-semibold hover:scale-105 transition-all duration-300 ${
-                  isMenuOpen ? "animate-fade-in-up delay-300" : "opacity-0"
-                }`}
-              >
-                Register
-              </button>
+              {user ? (
+                <>
+                  <span className="block text-cyan-400 px-5 py-3">
+                    Hello, {user.username}
+                  </span>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }}
+                    className="w-full px-5 py-3 text-red-500 border border-red-600 rounded-full hover:bg-red-600 hover:text-white transition-all duration-300"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      onLoginClick();
+                      setIsMenuOpen(false);
+                    }}
+                    className={`w-full px-5 py-3 text-cyan-400 border border-cyan-500/50 rounded-full hover:bg-cyan-500/10 transition-all duration-300 ${
+                      isMenuOpen ? "animate-fade-in-up delay-200" : "opacity-0"
+                    }`}
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => {
+                      onRegisterClick();
+                      setIsMenuOpen(false);
+                    }}
+                    className={`w-full px-5 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full font-semibold hover:scale-105 transition-all duration-300 ${
+                      isMenuOpen ? "animate-fade-in-up delay-300" : "opacity-0"
+                    }`}
+                  >
+                    Register
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
       </nav>
-      <LoginModal
-        isOpen={showLoginModal}
-        onClose={handleCloseModals}
-        onSwitchToRegister={onLoginClick}
-      />
-
-      <RegisterModal
-        isOpen={showRegisterModal}
-        onClose={handleCloseModals}
-        onSwitchToLogin={onRegisterClick}
-      />
     </>
   );
 };
