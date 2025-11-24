@@ -53,7 +53,7 @@ export function useLogin() {
             queryClient.invalidateQueries({ queryKey: authKeys.user() });
             dispatch(setUser(user));
             toast.success("Logged in successfully!");
-            router.push("/dashboard");
+            router.push("/");
         },
         onError: (error: any) => {
             dispatch(setError(error.response?.data?.message ?? "Login failed"));
