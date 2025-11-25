@@ -12,7 +12,7 @@ import { useResize } from "@/app/hooks/useResize";
 import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
 import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
 import { LoginCredentials } from "@/app/modules/users/types/IUserTypes";
-import { useLogin } from "@/app/modules/auth/hooks/useAuth";
+import { useAuthActions } from "@/app/modules/auth/actions/authActions";
 
 interface LoginContentProps {
   onClose: () => void;
@@ -26,25 +26,17 @@ export const LoginContent: React.FC<LoginContentProps> = ({
   const dispatch = useDispatch();
   const { isMobile } = useResize();
 
+  const { login } = useAuthActions();
+
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginCredentials>();
 
-  const loginMutation = useLogin();
-  const isLoading = loginMutation.status === "pending";
-
-  const onSubmit = (values: LoginCredentials) => {
-    loginMutation.mutate(values, {
-      onSuccess: () => {
-        onClose();
-      },
-      onError: (error) => {
-        console.log("Login failed", error);
-        // toast handled in useLogin
-      },
-    });
+  const onSubmit = async (values: LoginCredentials) => {
+    const response = await login(values);
+    if (response) onClose();
   };
 
   const handleSwitchToRegister = () => {
@@ -91,6 +83,7 @@ export const LoginContent: React.FC<LoginContentProps> = ({
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          {/* Email */}
           <div>
             <label className="block text-sm font-semibold text-gray-300 mb-2">
               Email Address
@@ -115,6 +108,7 @@ export const LoginContent: React.FC<LoginContentProps> = ({
             )}
           </div>
 
+          {/* Password */}
           <div>
             <label className="block text-sm font-semibold text-gray-300 mb-2">
               Password
@@ -133,6 +127,7 @@ export const LoginContent: React.FC<LoginContentProps> = ({
             )}
           </div>
 
+          {/* Options */}
           <div className="flex items-center justify-between text-sm">
             <label className="flex items-center text-gray-400 cursor-pointer">
               <input type="checkbox" className="mr-2 rounded" />
@@ -147,15 +142,17 @@ export const LoginContent: React.FC<LoginContentProps> = ({
             </a>
           </div>
 
+          {/* Submit */}
           <button
             type="submit"
-            disabled={isSubmitting || isLoading}
+            disabled={isSubmitting}
             className="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl font-semibold hover:scale-[1.02] transition-transform shadow-lg shadow-cyan-500/25"
           >
-            {isLoading ? "Signing In..." : "Sign In"}
+            {isSubmitting ? "Signing In..." : "Sign In"}
           </button>
         </form>
 
+        {/* Switch */}
         <div className="mt-6 text-center text-gray-400">
           Don't have an account?{" "}
           <button

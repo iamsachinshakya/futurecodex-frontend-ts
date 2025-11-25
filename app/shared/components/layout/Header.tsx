@@ -8,13 +8,13 @@ import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
 import { DialogType } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
 import { useResize } from "@/app/hooks/useResize";
 import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
-import { useLogout } from "@/app/modules/auth/hooks/useAuth";
 import { toast } from "sonner";
 import {
   selectAuthUser,
   selectAuthLoading,
 } from "@/app/modules/auth/redux/authSlice";
 import { UserRole } from "@/app/modules/users/types/IUserTypes";
+import { useAuthActions } from "@/app/modules/auth/actions/authActions";
 
 interface HeaderProps {}
 
@@ -28,58 +28,23 @@ const Header: React.FC<HeaderProps> = () => {
   const user = useSelector(selectAuthUser);
   const isLoading = useSelector(selectAuthLoading);
 
-  const logoutMutation = useLogout();
+  const { logout } = useAuthActions();
 
-  const onLoginClick = () => {
+  const openAuthUI = (type: DialogType) => {
+    const payload = { show: true, type, mode: null };
+
     if (isMobile) {
-      dispatch(
-        setBottomSheet({
-          show: true,
-          type: DialogType.LOGIN,
-          mode: null,
-        })
-      );
+      dispatch(setBottomSheet(payload));
     } else {
-      dispatch(
-        setDialog({
-          show: true,
-          type: DialogType.LOGIN,
-          mode: null,
-        })
-      );
+      dispatch(setDialog(payload));
     }
   };
 
-  const onRegisterClick = () => {
-    if (isMobile) {
-      dispatch(
-        setBottomSheet({
-          show: true,
-          type: DialogType.REGISTER,
-          mode: null,
-        })
-      );
-    } else {
-      dispatch(
-        setDialog({
-          show: true,
-          type: DialogType.REGISTER,
-          mode: null,
-        })
-      );
-    }
-  };
+  const onLoginClick = () => openAuthUI(DialogType.LOGIN);
+  const onRegisterClick = () => openAuthUI(DialogType.REGISTER);
 
-  const handleLogout = () => {
-    logoutMutation.mutate(undefined, {
-      onSuccess: () => {
-        toast.success("Logged out successfully");
-        setIsMenuOpen(false);
-      },
-      onError: () => {
-        toast.error("Logout failed");
-      },
-    });
+  const handleLogout = async () => {
+    await logout();
   };
 
   useEffect(() => {
@@ -147,7 +112,7 @@ const Header: React.FC<HeaderProps> = () => {
 
               {/* Auth UI */}
               <div className="flex items-center gap-3 ml-4">
-                {isLoading ? (
+                {isLoading && user ? (
                   <span className="text-cyan-400">Loading...</span>
                 ) : user ? (
                   <>

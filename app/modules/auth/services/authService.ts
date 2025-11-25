@@ -2,26 +2,50 @@ import { apiClient } from "@/app/lib/api/client";
 import { IUserEntity, LoginCredentials, RegisterData } from "@/app/modules/users/types/IUserTypes";
 
 export const authService = {
+    // ---------------------------------------------------
+    // LOGIN
+    // ---------------------------------------------------
     login: async (credentials: LoginCredentials): Promise<IUserEntity> => {
-        const { data } = await apiClient.post("/auth/login", credentials);
-        return data.data.user;
-    },
-
-    getUser: async (): Promise<IUserEntity | null> => {
         try {
-            const response = await apiClient.get("/auth/me");
-            return response.data.data;
-        } catch {
-            return null;
+            const { data } = await apiClient.post("/auth/login", credentials);
+            return data.data.user;
+        } catch (err: any) {
+            throw err;
         }
     },
 
-    logout: async (): Promise<void> => {
-        await apiClient.post("/auth/logout");
+    // ---------------------------------------------------
+    // GET USER
+    // ---------------------------------------------------
+    getUser: async (): Promise<IUserEntity | null> => {
+        try {
+            const res = await apiClient.get("/auth/me");
+            return res.data.data;
+        } catch {
+            return null; // user not logged in
+        }
     },
 
+    // ---------------------------------------------------
+    // LOGOUT
+    // ---------------------------------------------------
+    logout: async (): Promise<void> => {
+        try {
+            await apiClient.post("/auth/logout");
+        } catch (err) {
+            throw err;
+        }
+    },
+
+    // ---------------------------------------------------
+    // REGISTER
+    // ---------------------------------------------------
     register: async (newUser: RegisterData): Promise<IUserEntity> => {
-        const { data } = await apiClient.post("/auth/register", newUser);
-        return data.data.user;
+        try {
+            const { data } = await apiClient.post("/auth/register", newUser);
+            return data.data;
+        } catch (err: any) {
+            throw err;
+        }
     },
 };

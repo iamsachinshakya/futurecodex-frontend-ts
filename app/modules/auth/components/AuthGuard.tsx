@@ -1,52 +1,66 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+
 import {
   selectAuthIsLoggedIn,
   selectAuthLoading,
   selectAuthUser,
 } from "@/app/modules/auth/redux/authSlice";
+
 import { UserRole } from "@/app/modules/users/types/IUserTypes";
 import Loader from "@/app/shared/components/loader/Loader";
 
-const ALLOWED_ROLES = [UserRole.ADMIN, UserRole.AUTHOR, UserRole.EDITOR];
+const ALLOWED_ROLES = new Set([
+  UserRole.ADMIN,
+  UserRole.AUTHOR,
+  UserRole.EDITOR,
+]);
 
 export default function AdminAuthGuard({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
-  const authUser = useSelector(selectAuthUser);
-  const loading = useSelector(selectAuthLoading);
   const router = useRouter();
 
-  // Checks if user has an allowed role
-  const hasAccess =
-    isLoggedIn && authUser && ALLOWED_ROLES.includes(authUser.role);
+  const loading = useSelector(selectAuthLoading);
+  const isLoggedIn = useSelector(selectAuthIsLoggedIn);
+  const authUser = useSelector(selectAuthUser);
 
+  const [redirecting, setRedirecting] = useState(false);
+
+  const hasAccess = useMemo(() => {
+    if (!isLoggedIn || !authUser) return false;
+    return ALLOWED_ROLES.has(authUser.role);
+  }, [isLoggedIn, authUser]);
+
+  /**
+   * Redirect Logic — but keep showing loader until redirect happens
+   */
   useEffect(() => {
-    // Only redirect when auth is checked, and user does not have access
     if (!loading && !hasAccess) {
+      setRedirecting(true);
       router.replace("/");
     }
   }, [loading, hasAccess, router]);
 
-  if (loading) {
+  /**
+   * Prevent flicker:
+   * - Show loader when:
+   *   • auth is loading
+   *   • OR we triggered redirect
+   */
+  if (loading || redirecting) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
+      <div className="min-h-screen flex items-center justify-center bg-black/80">
         <Loader />
       </div>
     );
   }
 
-  // Not authenticated or not allowed role (redirect handled in useEffect)
-  if (!hasAccess) {
-    return null;
-  }
-
-  // Authenticated and allowed role: render protected children
+  /** Authorized → render protected content */
   return <>{children}</>;
 }
