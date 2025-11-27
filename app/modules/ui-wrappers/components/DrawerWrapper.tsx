@@ -7,6 +7,7 @@ import {
 import { DrawerType } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
 import { LoginContent } from "@/app/shared/components/modals/auth/LoginContent";
 import { RegisterContent } from "@/app/shared/components/modals/auth/RegisterContent";
+import { clearOverlayState } from "@/app/shared/redux/globalSlice";
 import { AppDispatch } from "@/app/store/store";
 import { JSX, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -47,8 +48,9 @@ export default function DrawerWrapper() {
     };
   }, [drawerState.show]);
 
-  const closeDrawer = async () => {
-    await dispatch(clearDrawer());
+  const closeDrawer = () => {
+    dispatch(clearDrawer());
+    dispatch(clearOverlayState());
   };
 
   const list: Partial<Record<DrawerType, JSX.Element>> = {

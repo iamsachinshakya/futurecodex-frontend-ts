@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useDeferredValue, useTransition } from "react";
 import {
   Edit,
   Trash2,
@@ -9,132 +9,104 @@ import {
   Ban,
   CheckCircle,
   AlertTriangle,
+  Loader2,
 } from "lucide-react";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: "Admin" | "User" | "Moderator";
-  status: "Active" | "Inactive";
-  bio?: string;
-  joinedDate: string;
-  posts: number;
-}
-
-const mockUsers: User[] = [
-  {
-    id: 1,
-    name: "Sarah Chen",
-    email: "sarah@example.com",
-    role: "Admin",
-    status: "Active",
-    bio: "Tech enthusiast and blogger",
-    joinedDate: "2024-01-15",
-    posts: 45,
-  },
-  {
-    id: 2,
-    name: "John Doe",
-    email: "john@example.com",
-    role: "User",
-    bio: "Passionate writer",
-    status: "Active",
-    joinedDate: "2024-02-20",
-    posts: 12,
-  },
-  {
-    id: 3,
-    name: "Jane Smith",
-    email: "jane@example.com",
-    role: "Moderator",
-    bio: "Content moderator",
-    status: "Active",
-    joinedDate: "2024-03-10",
-    posts: 28,
-  },
-  {
-    id: 4,
-    name: "Mike Johnson",
-    email: "mike@example.com",
-    role: "User",
-    bio: "",
-    status: "Inactive",
-    joinedDate: "2024-04-05",
-    posts: 5,
-  },
-];
+import { useDispatch } from "react-redux";
+import { useResize } from "@/app/hooks/useResize";
+import {
+  DialogType,
+  Mode,
+} from "@/app/modules/ui-wrappers/types/IOverlayTypes";
+import { setBottomSheet } from "@/app/modules/ui-wrappers/redux/bottomSheetSlice";
+import { setDialog } from "@/app/modules/ui-wrappers/redux/dialogSlice";
+import { setOverlayState } from "@/app/shared/redux/globalSlice";
+import { useUsersQuery } from "@/app/modules/users/hooks/useUsers";
+import { useUserActions } from "@/app/modules/users/actions/userActions";
+import {
+  IUserEntity,
+  UserRole,
+  UserStatus,
+} from "@/app/modules/users/types/IUserTypes";
+import { parsedUpdateUserData } from "@/app/modules/users/utils/userUtils";
 
 export function UsersTable() {
-  const [users, setUsers] = useState<User[]>(mockUsers);
+  const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
-  const [showUserModal, setShowUserModal] = useState(false);
-  const [editingUser, setEditingUser] = useState<User | null>(null);
+  // Defer search query to prevent blocking UI during typing
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const [isPending, startTransition] = useTransition();
+
+  // READ OPERATIONS - Uses deferred search value
+  const {
+    data: usersData,
+    isLoading: isLoadingUsers,
+    isError: isErrorUsers,
+    error: errorUsers,
+  } = useUsersQuery({ page, limit: 10, search: deferredSearchQuery });
+
+  const {
+    createUser,
+    updateUser,
+    deleteUser,
+    bulkDeleteUsers,
+    isCreating,
+    isUpdating,
+    isDeleting,
+  } = useUserActions();
+
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
-  const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [userToDelete, setUserToDelete] = useState<IUserEntity | null>(null);
 
-  // Handle creating new user
-  const handleCreateUser = () => {
-    setEditingUser(null);
-    setShowUserModal(true);
-  };
+  const dispatch = useDispatch();
+  const { isMobile } = useResize();
 
-  // Handle editing existing user
-  const handleEditUser = (user: User) => {
-    setEditingUser(user);
-    setShowUserModal(true);
-  };
+  const users = usersData?.users || [];
+  const totalUsers = usersData?.total || 0;
+  const totalPages = Math.ceil(totalUsers / 10);
 
-  // Handle saving user (create or update)
-  const handleSaveUser = async (userData: User) => {
-    try {
-      if (userData.id) {
-        // Update existing user
-        setUsers(
-          users.map((u) => (u.id === userData.id ? { ...userData } : u))
-        );
-        console.log("User updated:", userData);
-      } else {
-        // Create new user with auto-generated ID
-        const newUser = {
-          ...userData,
-          id: Math.max(...users.map((u) => u.id)) + 1,
-          joinedDate: new Date().toISOString().split("T")[0],
-          posts: 0,
-        };
-        setUsers([...users, newUser]);
-        console.log("User created:", newUser);
-      }
+  // Check if search is actively being processed
+  const isSearching = searchQuery !== deferredSearchQuery || isPending;
 
-      // Close modal and reset
-      setShowUserModal(false);
-      setEditingUser(null);
-    } catch (error) {
-      console.error("Error saving user:", error);
-      throw error;
+  const openAuthUI = (type: DialogType, mode: Mode) => {
+    const payload = { show: true, type, mode: mode };
+
+    if (isMobile) {
+      dispatch(setBottomSheet(payload));
+    } else {
+      dispatch(setDialog(payload));
     }
   };
 
-  // Filtered users based on search
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleCreateUser = () => {
+    openAuthUI(DialogType.ADD_USER, Mode.ADD);
+  };
 
-  // Handle select all checkbox
+  const handleEditUser = (user: IUserEntity) => {
+    dispatch(setOverlayState(parsedUpdateUserData(user)));
+    openAuthUI(DialogType.ADD_USER, Mode.EDIT);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Wrap in transition to mark as non-urgent
+    startTransition(() => {
+      setSearchQuery(value);
+      // Reset to page 1 when searching
+      setPage(1);
+    });
+  };
+
   const handleSelectAll = () => {
-    if (selectedUsers.length === filteredUsers.length) {
+    if (selectedUsers.length === users.length) {
       setSelectedUsers([]);
     } else {
-      setSelectedUsers(filteredUsers.map((user) => user.id));
+      setSelectedUsers(users.map((user: IUserEntity) => user.id));
     }
   };
 
-  // Handle individual checkbox
-  const handleSelectUser = (userId: number) => {
+  const handleSelectUser = (userId: string) => {
     if (selectedUsers.includes(userId)) {
       setSelectedUsers(selectedUsers.filter((id) => id !== userId));
     } else {
@@ -142,23 +114,23 @@ export function UsersTable() {
     }
   };
 
-  // Show delete confirmation for single user
-  const handleDeleteUserClick = (user: User) => {
+  const handleDeleteUserClick = (user: IUserEntity) => {
     setUserToDelete(user);
     setShowDeleteAlert(true);
   };
 
-  // Confirm single user deletion
-  const confirmDeleteUser = () => {
+  const confirmDeleteUser = async () => {
     if (userToDelete) {
-      setUsers(users.filter((user) => user.id !== userToDelete.id));
-      setShowDeleteAlert(false);
-      setUserToDelete(null);
+      const result = await deleteUser(userToDelete.id);
+
+      if (result) {
+        setShowDeleteAlert(false);
+        setUserToDelete(null);
+      }
     }
   };
 
-  // Handle bulk delete with confirmation
-  const handleBulkDelete = () => {
+  const handleBulkDelete = async () => {
     if (
       confirm(
         `Are you sure you want to delete ${selectedUsers.length} selected user${
@@ -166,10 +138,38 @@ export function UsersTable() {
         }?\n\nThis action cannot be undone.`
       )
     ) {
-      setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
-      setSelectedUsers([]);
+      const result = await bulkDeleteUsers(selectedUsers);
+
+      if (result && result.successCount > 0) {
+        setSelectedUsers([]);
+      }
     }
   };
+
+  if (isLoadingUsers && !isSearching) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500 mx-auto mb-4"></div>
+          <p className="text-gray-400">Loading users...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isErrorUsers) {
+    return (
+      <div className="p-6 flex items-center justify-center min-h-[400px]">
+        <div className="text-center">
+          <AlertTriangle className="text-red-400 mx-auto mb-4" size={48} />
+          <p className="text-red-400 font-semibold mb-2">Error loading users</p>
+          <p className="text-gray-400 text-sm">
+            {errorUsers?.message || "Something went wrong"}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -185,27 +185,37 @@ export function UsersTable() {
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search users..."
-                className="w-full pl-12 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-xl focus:outline-none focus:border-cyan-500 transition-all text-white placeholder-gray-400"
+                className="w-full pl-12 pr-12 py-3 bg-gray-700/50 border border-gray-600 rounded-xl focus:outline-none focus:border-cyan-500 transition-all text-white placeholder-gray-400"
               />
+              {isSearching && (
+                <Loader2
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-cyan-500 animate-spin"
+                  size={20}
+                />
+              )}
             </div>
             {selectedUsers.length > 0 && (
               <button
                 onClick={handleBulkDelete}
-                className="flex items-center gap-2 px-4 py-3 bg-red-500/10 text-red-400 rounded-xl hover:bg-red-500/20 transition-all"
+                disabled={isDeleting}
+                className="flex items-center gap-2 px-4 py-3 bg-red-500/10 text-red-400 rounded-xl hover:bg-red-500/20 transition-all disabled:opacity-50"
               >
                 <Trash2 size={18} />
-                Delete ({selectedUsers.length})
+                {isDeleting
+                  ? "Deleting..."
+                  : `Delete (${selectedUsers.length})`}
               </button>
             )}
           </div>
           <button
             onClick={handleCreateUser}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl hover:scale-105 transition-all shadow-lg shadow-cyan-500/25"
+            disabled={isCreating}
+            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-xl hover:scale-105 transition-all shadow-lg shadow-cyan-500/25 disabled:opacity-50"
           >
             <Plus size={20} />
-            Add User
+            {isCreating ? "Creating..." : "Add User"}
           </button>
         </div>
 
@@ -218,8 +228,7 @@ export function UsersTable() {
                   <input
                     type="checkbox"
                     checked={
-                      selectedUsers.length === filteredUsers.length &&
-                      filteredUsers.length > 0
+                      selectedUsers.length === users.length && users.length > 0
                     }
                     onChange={handleSelectAll}
                     className="w-4 h-4 rounded border-gray-600 bg-gray-700 checked:bg-cyan-500"
@@ -237,130 +246,155 @@ export function UsersTable() {
                 <th className="text-left p-4 text-sm font-semibold text-gray-300">
                   Joined
                 </th>
-                <th className="text-left p-4 text-sm font-semibold text-gray-300">
-                  Posts
-                </th>
                 <th className="text-right p-4 text-sm font-semibold text-gray-300">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {filteredUsers.map((user) => (
-                <tr
-                  key={user.id}
-                  className="border-b border-gray-700/50 hover:bg-gray-700/20 transition-colors"
-                >
-                  <td className="p-4">
-                    <input
-                      type="checkbox"
-                      checked={selectedUsers.includes(user.id)}
-                      onChange={() => handleSelectUser(user.id)}
-                      className="w-4 h-4 rounded border-gray-600 bg-gray-700 checked:bg-cyan-500"
-                    />
-                  </td>
-                  <td className="p-4">
-                    <div>
-                      <p className="font-semibold text-white">{user.name}</p>
-                      <p className="text-sm text-gray-400">{user.email}</p>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        user.role === "Admin"
-                          ? "bg-purple-500/20 text-purple-400"
-                          : user.role === "Moderator"
-                          ? "bg-blue-500/20 text-blue-400"
-                          : "bg-gray-500/20 text-gray-400"
-                      }`}
-                    >
-                      {user.role}
-                    </span>
-                  </td>
-                  <td className="p-4">
-                    <span
-                      className={`flex items-center gap-1 w-fit px-3 py-1 rounded-full text-xs font-semibold ${
-                        user.status === "Active"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-red-500/20 text-red-400"
-                      }`}
-                    >
-                      {user.status === "Active" ? (
-                        <CheckCircle size={12} />
-                      ) : (
-                        <Ban size={12} />
-                      )}
-                      {user.status}
-                    </span>
-                  </td>
-                  <td className="p-4 text-sm text-gray-300">
-                    {user.joinedDate}
-                  </td>
-                  <td className="p-4 text-sm text-gray-300">{user.posts}</td>
-                  <td className="p-4">
-                    <div className="flex items-center justify-end gap-2">
-                      <button
-                        onClick={() => handleEditUser(user)}
-                        className="p-2 hover:bg-cyan-500/10 text-cyan-400 rounded-lg transition-all"
-                        title="Edit user"
+            <tbody style={{ opacity: isSearching ? 0.5 : 1 }}>
+              {users.length > 0 ? (
+                users.map((user: IUserEntity) => (
+                  <tr
+                    key={user.id}
+                    className="border-b border-gray-700/50 hover:bg-gray-700/20 transition-colors"
+                  >
+                    <td className="p-4">
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.includes(user.id)}
+                        onChange={() => handleSelectUser(user.id)}
+                        className="w-4 h-4 rounded border-gray-600 bg-gray-700 checked:bg-cyan-500"
+                      />
+                    </td>
+                    <td className="p-4">
+                      <div>
+                        <p className="font-semibold text-white">
+                          {user.username || user.fullName}
+                        </p>
+                        <p className="text-sm text-gray-400">{user.email}</p>
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          user.role === UserRole.ADMIN
+                            ? "bg-purple-500/20 text-purple-400"
+                            : user.role === UserRole.USER
+                            ? "bg-blue-500/20 text-blue-400"
+                            : user.role === UserRole.AUTHOR
+                            ? "bg-cyan-500/20 text-cyan-500"
+                            : "bg-gray-500/20 text-gray-400"
+                        }`}
                       >
-                        <Edit size={18} />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteUserClick(user)}
-                        className="p-2 hover:bg-red-500/10 text-red-400 rounded-lg transition-all"
-                        title="Delete user"
+                        {user.role.toLocaleUpperCase()}
+                      </span>
+                    </td>
+                    <td className="p-4">
+                      <span
+                        className={`flex items-center gap-1 w-fit px-3 py-1 rounded-full text-xs font-semibold ${
+                          user.status === UserStatus.ACTIVE
+                            ? "bg-green-500/20 text-green-400"
+                            : "bg-red-500/20 text-red-400"
+                        }`}
                       >
-                        <Trash2 size={18} />
-                      </button>
-                    </div>
+                        {user.status === UserStatus.ACTIVE ? (
+                          <CheckCircle size={12} />
+                        ) : (
+                          <Ban size={12} />
+                        )}
+                        {user.status === UserStatus.ACTIVE
+                          ? "Active"
+                          : "Inactive"}
+                      </span>
+                    </td>
+                    <td className="p-4 text-sm text-gray-300">
+                      {new Date(user.createdAt || "").toLocaleDateString()}
+                    </td>
+                    <td className="p-4">
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleEditUser(user)}
+                          disabled={isUpdating}
+                          className="p-2 hover:bg-cyan-500/10 text-cyan-400 rounded-lg transition-all disabled:opacity-50"
+                          title="Edit user"
+                        >
+                          <Edit size={18} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteUserClick(user)}
+                          disabled={isDeleting}
+                          className="p-2 hover:bg-red-500/10 text-red-400 rounded-lg transition-all disabled:opacity-50"
+                          title="Delete user"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="text-center py-12">
+                    <p className="text-gray-400">
+                      {deferredSearchQuery
+                        ? `No users found for "${deferredSearchQuery}"`
+                        : "No users found"}
+                    </p>
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
 
-        {/* Empty State */}
-        {filteredUsers.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-400">No users found</p>
+        {/* Pagination */}
+        {totalPages > 0 && (
+          <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-700">
+            <p className="text-sm text-gray-400">
+              Showing {users.length} of {totalUsers} users
+              {deferredSearchQuery && (
+                <span className="ml-1">
+                  for &quot;{deferredSearchQuery}&quot;
+                </span>
+              )}
+            </p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                disabled={page === 1}
+                className="px-4 py-2 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              {Array.from(
+                { length: Math.min(totalPages, 5) },
+                (_, i) => i + 1
+              ).map((pageNum) => (
+                <button
+                  key={pageNum}
+                  onClick={() => setPage(pageNum)}
+                  className={`px-4 py-2 rounded-lg transition-all text-sm ${
+                    page === pageNum
+                      ? "bg-cyan-500 text-white"
+                      : "bg-gray-700/50 hover:bg-gray-700"
+                  }`}
+                >
+                  {pageNum}
+                </button>
+              ))}
+              <button
+                onClick={() =>
+                  setPage((prev) => Math.min(prev + 1, totalPages))
+                }
+                disabled={page === totalPages}
+                className="px-4 py-2 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-all text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
           </div>
         )}
-
-        {/* Pagination */}
-        <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-700">
-          <p className="text-sm text-gray-400">
-            Showing {filteredUsers.length} of {users.length} users
-          </p>
-          <div className="flex gap-2">
-            <button className="px-4 py-2 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-all text-sm">
-              Previous
-            </button>
-            <button className="px-4 py-2 bg-cyan-500 rounded-lg hover:bg-cyan-600 transition-all text-sm">
-              1
-            </button>
-            <button className="px-4 py-2 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-all text-sm">
-              2
-            </button>
-            <button className="px-4 py-2 bg-gray-700/50 rounded-lg hover:bg-gray-700 transition-all text-sm">
-              Next
-            </button>
-          </div>
-        </div>
       </div>
-
-      {/* User Create/Edit Modal */}
-      {/* <UserModal
-        isOpen={showUserModal}
-        onClose={() => {
-          setShowUserModal(false);
-          setEditingUser(null);
-        }}
-        user={editingUser}
-        onSave={handleSaveUser}
-      /> */}
 
       {/* Delete Confirmation Alert */}
       {showDeleteAlert && userToDelete && (
@@ -377,7 +411,7 @@ export function UsersTable() {
                 <p className="text-gray-300 mb-1">
                   Are you sure you want to delete{" "}
                   <span className="font-semibold text-white">
-                    {userToDelete.name}
+                    {userToDelete.username || userToDelete.fullName}
                   </span>
                   ?
                 </p>
@@ -385,30 +419,24 @@ export function UsersTable() {
                   This will permanently delete the user and all associated data.
                   This action cannot be undone.
                 </p>
-                {userToDelete.posts > 0 && (
-                  <div className="mt-3 p-3 bg-orange-500/10 border border-orange-500/30 rounded-lg">
-                    <p className="text-sm text-orange-300">
-                      ⚠️ This user has {userToDelete.posts} blog post
-                      {userToDelete.posts > 1 ? "s" : ""} that will be affected.
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
 
             <div className="flex gap-3">
               <button
                 onClick={confirmDeleteUser}
-                className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 rounded-xl transition-all font-semibold text-white"
+                disabled={isDeleting}
+                className="flex-1 px-4 py-3 bg-red-500 hover:bg-red-600 rounded-xl transition-all font-semibold text-white disabled:opacity-50"
               >
-                Delete User
+                {isDeleting ? "Deleting..." : "Delete User"}
               </button>
               <button
                 onClick={() => {
                   setShowDeleteAlert(false);
                   setUserToDelete(null);
                 }}
-                className="flex-1 px-4 py-3 bg-gray-700/50 hover:bg-gray-700/70 rounded-xl transition-all font-semibold"
+                disabled={isDeleting}
+                className="flex-1 px-4 py-3 bg-gray-700/50 hover:bg-gray-700/70 rounded-xl transition-all font-semibold disabled:opacity-50"
               >
                 Cancel
               </button>

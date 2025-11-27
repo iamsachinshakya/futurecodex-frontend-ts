@@ -5,6 +5,7 @@ import { AddBlogContent } from "@/app/modules/dashboard/components/modals/conten
 import { AddCategoryContent } from "@/app/modules/dashboard/components/modals/contents/AddCategoryContent";
 import { AddCommentContent } from "@/app/modules/dashboard/components/modals/contents/AddCommentContent";
 import { AddProfileContent } from "@/app/modules/dashboard/components/modals/contents/AddProfileContent";
+import { AddUserModalContent } from "@/app/modules/dashboard/components/modals/contents/AddUserContent";
 import { ResetPasswordContent } from "@/app/modules/dashboard/components/modals/contents/ResetPasswordContent";
 import {
   clearDialog,
@@ -13,6 +14,7 @@ import {
 import { DialogType } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
 import { LoginContent } from "@/app/shared/components/modals/auth/LoginContent";
 import { RegisterContent } from "@/app/shared/components/modals/auth/RegisterContent";
+import { clearOverlayState } from "@/app/shared/redux/globalSlice";
 import { AppDispatch } from "@/app/store/store";
 import { JSX, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -49,8 +51,9 @@ export default function DialogWrapper() {
     };
   }, [dialogState.show]);
 
-  const closeModal = async () => {
-    await dispatch(clearDialog());
+  const closeModal = () => {
+    dispatch(clearDialog());
+    dispatch(clearOverlayState());
   };
 
   const getModalWidth = () => {
@@ -63,7 +66,7 @@ export default function DialogWrapper() {
       case DialogType.LOGIN:
         return "max-w-md";
       default:
-        return "max-w-md";
+        return "max-w-2xl";
     }
   };
 
@@ -96,6 +99,9 @@ export default function DialogWrapper() {
 
     [DialogType.RESET_PASSWORD]: (
       <ResetPasswordContent onClose={closeModal} data={dialogState} />
+    ),
+    [DialogType.ADD_USER]: (
+      <AddUserModalContent onClose={closeModal} data={dialogState} />
     ),
   };
 

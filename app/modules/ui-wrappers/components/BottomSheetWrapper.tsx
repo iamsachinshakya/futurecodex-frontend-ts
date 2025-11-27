@@ -13,6 +13,7 @@ import {
 import { BottomSheetType } from "@/app/modules/ui-wrappers/types/IOverlayTypes";
 import { LoginContent } from "@/app/shared/components/modals/auth/LoginContent";
 import { RegisterContent } from "@/app/shared/components/modals/auth/RegisterContent";
+import { clearOverlayState } from "@/app/shared/redux/globalSlice";
 import { AppDispatch } from "@/app/store/store";
 import { JSX, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,8 +57,9 @@ export default function BottomSheetWrapper() {
     };
   }, [bottomSheetState.show]);
 
-  const closeBottomSheet = async () => {
-    await dispatch(clearBottomSheet());
+  const closeBottomSheet = () => {
+    dispatch(clearBottomSheet());
+    dispatch(clearOverlayState());
   };
 
   const list: Partial<Record<BottomSheetType, JSX.Element>> = {

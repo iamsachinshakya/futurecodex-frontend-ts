@@ -23,7 +23,7 @@ interface UserContentProps {
   data: OverlayData;
 }
 
-export function UserContent({ onClose, data }: UserContentProps) {
+export function AddUserModal({ onClose, data }: UserContentProps) {
   const [formData, setFormData] = useState<User>({
     id: 0,
     name: "",

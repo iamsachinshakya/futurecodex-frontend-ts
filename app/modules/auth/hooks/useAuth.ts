@@ -1,7 +1,7 @@
 // useAuth.ts
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { authService } from "../services/authService";
-import { IUserEntity, LoginCredentials, RegisterData } from "@/app/modules/users/types/IUserTypes";
+import { IChangePassword, IUserEntity, LoginCredentials, RegisterData } from "@/app/modules/users/types/IUserTypes";
 
 export const authKeys = {
     all: ["auth"] as const,
@@ -57,6 +57,20 @@ export function useRegisterMutation() {
         mutationFn: authService.register,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: authKeys.user() });
+        },
+    });
+}
+
+
+/* ---------------------- RESET USER PASSWORD ------------------------ */
+export function useResetUserPasswordMutation() {
+    // const queryClient = useQueryClient();
+
+    return useMutation<void, any, { userId: string; payload: IChangePassword }>({
+        mutationFn: ({ userId, payload }) => authService.resetUserPassword(userId, payload),
+        onSuccess: (_, variables) => {
+            // Optionally invalidate user detail
+            // queryClient.invalidateQueries({ queryKey: userKeys.detail(variables.userId) });
         },
     });
 }

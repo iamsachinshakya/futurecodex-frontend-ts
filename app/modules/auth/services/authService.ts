@@ -1,5 +1,5 @@
 import { apiClient } from "@/app/lib/api/client";
-import { IUserEntity, LoginCredentials, RegisterData } from "@/app/modules/users/types/IUserTypes";
+import { IChangePassword, IUserEntity, LoginCredentials, RegisterData } from "@/app/modules/users/types/IUserTypes";
 
 export const authService = {
     // ---------------------------------------------------
@@ -44,6 +44,17 @@ export const authService = {
         try {
             const { data } = await apiClient.post("/auth/register", newUser);
             return data.data;
+        } catch (err: any) {
+            throw err;
+        }
+    },
+
+    // ---------------------------------------------------
+    // RESET USER PASSWORD (Admin)
+    // ---------------------------------------------------
+    resetUserPassword: async (userId: string, payload: IChangePassword): Promise<void> => {
+        try {
+            await apiClient.post(`/auth/${userId}/reset-password`, payload);
         } catch (err: any) {
             throw err;
         }

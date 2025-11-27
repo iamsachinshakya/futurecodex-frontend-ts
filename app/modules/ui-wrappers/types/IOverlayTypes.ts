@@ -36,7 +36,8 @@ export enum DialogType {
     ADD_CATEGORY = "add-category",
     ADD_COMMENT = "add-comment",
     ADD_PROFILE = "add-profile",
-    RESET_PASSWORD = "reset-password"
+    RESET_PASSWORD = "reset-password",
+    ADD_USER = "add-user"
 }
 
 export enum DrawerType {
@@ -52,6 +53,8 @@ export enum BottomSheetType {
     ADD_CATEGORY = "add-category",
     ADD_COMMENT = "add-comment",
     ADD_PROFILE = "add-profile",
-    RESET_PASSWORD = "reset-password"
+    RESET_PASSWORD = "reset-password",
+    ADD_USER = "add-user"
+
 
 }
