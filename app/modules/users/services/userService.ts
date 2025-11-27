@@ -1,4 +1,5 @@
 import { apiClient } from "@/app/lib/api/client";
+import { UserPaginatedData } from "@/app/modules/pagination/types/pagination";
 import { CreateUserData, IUserEntity, UpdateUserData, UsersQueryParams } from "@/app/modules/users/types/IUserTypes";
 
 
@@ -7,7 +8,7 @@ export const userService = {
     // GET ALL USERS (with pagination & filters)
     // ---------------------------------------------------
     // userService.ts
-    getUsers: async (params?: UsersQueryParams): Promise<{ users: IUserEntity[]; total: number }> => {
+    getUsers: async (params?: UsersQueryParams): Promise<UserPaginatedData> => {
         try {
             const queryParams = new URLSearchParams();
             if (params?.page) queryParams.append("page", params.page.toString());
@@ -16,14 +17,6 @@ export const userService = {
             if (params?.role) queryParams.append("role", params.role);
 
             const { data } = await apiClient.get(`/users?${queryParams.toString()}`);
-
-            // ✅ FIX: Check if data is array and wrap it
-            if (Array.isArray(data.data)) {
-                return {
-                    users: data.data,
-                    total: data.data.length
-                };
-            }
 
             // If already in correct format
             return data.data;

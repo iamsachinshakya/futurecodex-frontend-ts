@@ -28,6 +28,8 @@ import {
   UserStatus,
 } from "@/app/modules/users/types/IUserTypes";
 import { parsedUpdateUserData } from "@/app/modules/users/utils/userUtils";
+import { PAGINATION_PAGE_LIMIT } from "@/app/modules/pagination/constants/constants";
+import { useDebounce } from "@/app/hooks/useDebounce";
 
 export function UsersTable() {
   const [page, setPage] = useState(1);
@@ -35,7 +37,7 @@ export function UsersTable() {
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
 
   // Defer search query to prevent blocking UI during typing
-  const deferredSearchQuery = useDeferredValue(searchQuery);
+  const debounceQuery = useDebounce(searchQuery, 700);
   const [isPending, startTransition] = useTransition();
 
   // READ OPERATIONS - Uses deferred search value
@@ -44,7 +46,11 @@ export function UsersTable() {
     isLoading: isLoadingUsers,
     isError: isErrorUsers,
     error: errorUsers,
-  } = useUsersQuery({ page, limit: 10, search: deferredSearchQuery });
+  } = useUsersQuery({
+    page,
+    limit: PAGINATION_PAGE_LIMIT,
+    search: debounceQuery,
+  });
 
   const {
     createUser,
@@ -62,12 +68,12 @@ export function UsersTable() {
   const dispatch = useDispatch();
   const { isMobile } = useResize();
 
-  const users = usersData?.users || [];
-  const totalUsers = usersData?.total || 0;
-  const totalPages = Math.ceil(totalUsers / 10);
+  const users = usersData?.data || [];
+  const totalUsers = usersData?.pagination.total || 0;
+  const totalPages = Math.ceil(totalUsers / PAGINATION_PAGE_LIMIT);
 
   // Check if search is actively being processed
-  const isSearching = searchQuery !== deferredSearchQuery || isPending;
+  const isSearching = searchQuery !== debounceQuery || isPending;
 
   const openAuthUI = (type: DialogType, mode: Mode) => {
     const payload = { show: true, type, mode: mode };
@@ -336,8 +342,8 @@ export function UsersTable() {
                 <tr>
                   <td colSpan={6} className="text-center py-12">
                     <p className="text-gray-400">
-                      {deferredSearchQuery
-                        ? `No users found for "${deferredSearchQuery}"`
+                      {debounceQuery
+                        ? `No users found for "${debounceQuery}"`
                         : "No users found"}
                     </p>
                   </td>
@@ -352,10 +358,8 @@ export function UsersTable() {
           <div className="flex items-center justify-between mt-6 pt-6 border-t border-gray-700">
             <p className="text-sm text-gray-400">
               Showing {users.length} of {totalUsers} users
-              {deferredSearchQuery && (
-                <span className="ml-1">
-                  for &quot;{deferredSearchQuery}&quot;
-                </span>
+              {debounceQuery && (
+                <span className="ml-1">for &quot;{debounceQuery}&quot;</span>
               )}
             </p>
             <div className="flex gap-2">
