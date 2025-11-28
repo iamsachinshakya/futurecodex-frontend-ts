@@ -1,9 +1,10 @@
 "use client";
 
-import { Bell } from "lucide-react";
 import { useState } from "react";
 import { NotificationDropdown } from "./NotificationDropdown";
 import { UserAvatar } from "./UserAvatar";
+import { useSelector } from "react-redux";
+import { selectAuthUser } from "@/app/modules/auth/redux/authSlice";
 
 interface HeaderProps {
   activeTab: string;
@@ -11,8 +12,9 @@ interface HeaderProps {
 
 export function Header({ activeTab }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false);
+  const user = useSelector(selectAuthUser); // null OR user object
 
-  const titles: any = {
+  const titles: Record<string, string> = {
     dashboard: "Dashboard Overview",
     blogs: "My Blogs",
     analytics: "Analytics",
@@ -25,14 +27,29 @@ export function Header({ activeTab }: HeaderProps) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">{titles[activeTab]}</h2>
-          <p className="text-gray-400 text-sm mt-1">Welcome back, Sarah!</p>
+
+          {/* Show only if user exists */}
+          {user && (
+            <p className="text-gray-400 text-sm mt-1">
+              Welcome back, {user.username}!
+            </p>
+          )}
         </div>
+
         <div className="flex items-center gap-4">
           <NotificationDropdown
             show={showNotifications}
             onToggle={() => setShowNotifications(!showNotifications)}
           />
-          <UserAvatar name="Sarah Chen" role="Author" />
+
+          {/* Only render avatar if user exists */}
+          {user && (
+            <UserAvatar
+              name={user.username}
+              role={user.role}
+              avatar={user.avatar}
+            />
+          )}
         </div>
       </div>
     </header>
