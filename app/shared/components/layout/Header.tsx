@@ -91,7 +91,7 @@ const Header: React.FC<HeaderProps> = () => {
                 isVisible ? "animate-fade-in-scale" : "opacity-0"
               }`}
             >
-              FutureCodex
+              ApnaSpace
             </Link>
 
             {/* Desktop Menu */}

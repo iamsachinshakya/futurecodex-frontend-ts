@@ -79,7 +79,7 @@ export const LoginContent: React.FC<LoginContentProps> = ({
         </div>
 
         <p className="text-gray-400 mb-8">
-          Login to access your FutureCodex account
+          Login to access your ApnaSpace account
         </p>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

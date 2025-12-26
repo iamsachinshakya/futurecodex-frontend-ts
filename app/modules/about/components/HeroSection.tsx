@@ -29,7 +29,7 @@ const HeroSection: React.FC<HeroSectionProps> = () => {
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-full backdrop-blur-sm">
               <Sparkles size={20} className="text-cyan-400 animate-pulse" />
               <span className="text-cyan-400 font-semibold">
-                About FutureCodex
+                About ApnaSpace
               </span>
             </div>
           </FadeInOnScroll>

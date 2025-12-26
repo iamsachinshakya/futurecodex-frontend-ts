@@ -8,9 +8,7 @@ interface ProfileViewProps {}
 export function ProfileView({}: ProfileViewProps) {
   // Profile data
   const [profileName, setProfileName] = useState("Sarah Chen");
-  const [profileEmail, setProfileEmail] = useState(
-    "sarah.chen@FutureCodex.com"
-  );
+  const [profileEmail, setProfileEmail] = useState("sarah.chen@ApnaSpace.com");
   const [profileBio, setProfileBio] = useState("Tech writer & AI enthusiast");
 
   const onEditProfile = () => {};

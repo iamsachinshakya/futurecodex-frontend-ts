@@ -92,14 +92,14 @@ export default function MapSection() {
                 {/* Contact Methods */}
                 <div className="space-y-4 mb-8">
                   <a
-                    href="mailto:futurecodex@gmail.com"
+                    href="mailto:ApnaSpace@gmail.com"
                     className="group/link flex items-center justify-center lg:justify-start gap-3 text-gray-300 hover:text-cyan-400 transition-all duration-300"
                   >
                     <div className="p-2.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20 group-hover/link:border-cyan-500/50 group-hover/link:scale-110 transition-all duration-300">
                       <Mail size={18} className="text-cyan-400" />
                     </div>
                     <span className="text-base font-medium">
-                      futurecodex@gmail.com
+                      ApnaSpace@gmail.com
                     </span>
                   </a>
 

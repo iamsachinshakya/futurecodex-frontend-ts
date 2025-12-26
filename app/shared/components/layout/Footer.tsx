@@ -142,27 +142,27 @@ const Footer: React.FC = () => {
                     <p className="text-center sm:text-left">
                       © 2025{" "}
                       <span className="text-cyan-400 font-semibold">
-                        <Link href="/">FutureCodex</Link>
+                        <Link href="/">ApnaSpace</Link>
                       </span>
                       . All rights reserved.
                     </p>
                     {/* <div className="flex items-center gap-3">
                       <a
-                        // href="https://FutureCodex.blog/privacy"
+                        // href="https://ApnaSpace.blog/privacy"
                         className="hover:text-cyan-400 transition-colors duration-300"
                       >
                         Privacy
                       </a>
                       <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                       <a
-                        // href="https://FutureCodex.blog/terms"
+                        // href="https://ApnaSpace.blog/terms"
                         className="hover:text-cyan-400 transition-colors duration-300"
                       >
                         Terms
                       </a>
                       <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                       <a
-                        // href="https://FutureCodex.blog/cookies"
+                        // href="https://ApnaSpace.blog/cookies"
                         className="hover:text-cyan-400 transition-colors duration-300"
                       >
                         Cookies
