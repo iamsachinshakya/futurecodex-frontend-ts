@@ -2,12 +2,14 @@ import { BlogCard } from "./BlogCard";
 
 interface BlogListProps {
   blogs: Array<{
-    id: number;
+    id: string;
     title: string;
     views: number;
     likes: number;
     status: string;
     date: string;
+    onEditBlog: (id: string) => void;
+    onDeleteBlog: (id: string) => void;
   }>;
 }
 

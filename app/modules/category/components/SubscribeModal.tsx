@@ -17,7 +17,7 @@ export function SubscribeModal({
   onClose,
   categories,
 }: SubscribeModalProps) {
-  const globalEmail = useSelector((state: RootState) => state.global.email);
+  const globalEmail = "";
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);

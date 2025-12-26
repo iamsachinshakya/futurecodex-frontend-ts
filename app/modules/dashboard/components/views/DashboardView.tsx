@@ -85,7 +85,7 @@ export function DashboardView({}: DashboardViewProps) {
       {/* Recent Blogs */}
       <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50">
         <h3 className="text-xl font-bold mb-4">Recent Blog Posts</h3>
-        <BlogList blogs={recentBlogs} />
+        {/* <BlogList blogs={recentBlogs} /> */}
       </div>
     </div>
   );
